@@ -1,0 +1,65 @@
+.watermark {
+  position: relative;
+}
+
+.watermark::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDBweCIgaGVpZ2h0PSI1MHB4Ij4NCiAgICA8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIxNTAiIHk9IjMwIiBmb250LXNpemU9IjIwcHgiIGZpbGw9IiMwMDAwMDAiPkBMdVlvbWF5ZWw8L3RleHQ+DQo8L3N2Zz4=);
+  /* background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1NTBweCIgaGVpZ2h0PSIxNTBweCI+DQogICAgPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMTUwIiB5PSIzMCIgZm9udC1zaXplPSIyMHB4IiBmaWxsPSIjMDAwMDAwIj5ATHVZb21heWVsPC90ZXh0Pg0KPC9zdmc+); */
+  font-size: 20rem;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 0.15;
+  rotate: -45deg;
+  z-index: 999;
+}
+
+.watermark-small {
+  position: relative;
+}
+
+.watermark-small::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: url('../../assets/luyomayel.svg');
+  font-size: 20rem;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 0.15;
+  rotate: -45deg;
+  z-index: 999;
+}
+
+:host ::ng-deep{
+  @media only screen and (max-width: 920px) {
+    .p-toast {
+      width: 60% !important;
+    }
+    .p-toast-center {
+      left: 0%;
+      top: 20%;
+      min-width: 20vw;
+      transform: none;
+  }
+  }
+
+}

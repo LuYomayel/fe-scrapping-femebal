@@ -14,7 +14,7 @@ export class AppComponent {
 
   ngOnInit(): void {
     this.scrappingService.visitCount().subscribe( res => {
-      console.log(res);
+      // console.log(res);
     });
   }
 }

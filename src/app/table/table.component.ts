@@ -67,7 +67,7 @@ export class TableComponent implements OnInit, AfterViewInit {
     console.log('selectedFiltro', this.selectedFiltro);
   }
   ngAfterViewInit(): void {
-    this.messageService.add({key: 'tl', severity:'warn', summary:'Aviso', detail:'Todos los datos referentes a los goles son recopilados directamente a partir de las planillas digitales. Si existen discrepancias en el recuento de goles, es decir, si se observan más o menos goles de los que se esperaba, es importante notar que estos inconvenientes están fuera de mi ámbito de control y corrección.', sticky: true});
+    this.messageService.add({key: 'tl', severity:'warn', summary:'Aviso', detail:'Todos los datos referentes a los goles son recopilados directamente a partir de las planillas digitales. Si existen discrepancias en el recuento de goles, es decir, si se observan más o menos goles de los que se esperaba, es importante notar que estos inconvenientes están fuera de mi alcance y control.', sticky: true});
   }
 
   ngOnInit(): void {

@@ -8,7 +8,8 @@
     [value]="goleadores"
     [tableStyle]="{'min-width': '50rem'}"
     class="table-responsive"
-    styleClass="p-datatable-gridlines"
+    [ngClass]="{'watermark' : goleadores.length > 5, 'watermark-small' : goleadores.length > 0 && goleadores.length < 5}"
+    styleClass="p-datatable-gridlines "
     [paginator]="true" [rows]="10"
     emptyMessage="No hay datos"
     >
@@ -70,7 +71,7 @@
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-jugador let-columns="columns" let-rowIndex="rowIndex">
-        <tr>
+        <tr >
             <td *ngIf="selectedFiltro !== 'jugador'" class="text-center">{{rowIndex+1}}</td>
             <td>{{jugador.nombre}}</td>
             <td *ngIf="selectedFiltro === 'jugador'" class="text-center">{{jugador.categoria}}</td>
