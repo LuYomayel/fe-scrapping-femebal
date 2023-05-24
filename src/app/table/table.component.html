@@ -1,0 +1,94 @@
+<div class="container">
+  <h1 class="text-center">Goleadores</h1>
+  <div class="d-flex flex-row align-items-center mb-4">
+    <label for="filtroGeneral" class="pe-2">Filtrar por:</label>
+    <p-dropdown [options]="filtroGeneral" [(ngModel)]="selectedFiltro" [style]="{'width':'100%'}" [showClear]="true" (onChange)="onChangeFiltro($event)"></p-dropdown>
+  </div>
+  <p-table
+    [value]="goleadores"
+    [tableStyle]="{'min-width': '50rem'}"
+    class="table-responsive"
+    styleClass="p-datatable-gridlines"
+    [paginator]="true" [rows]="10"
+    emptyMessage="No hay datos"
+    >
+    <ng-template pTemplate="caption">
+      <div *ngIf="selectedFiltro == 'categoria'" class="row">
+        <div class="col-12 col-sm-4 col-md-3">
+          <p-dropdown [(ngModel)]="selectedCategoria" [options]="categorias" [style]="{'width':'100%'}" [showClear]="true"></p-dropdown>
+        </div>
+        <div class="col-12 col-sm-4 col-md-3">
+          <p-dropdown [(ngModel)]="selectedDivision" [options]="selectedCategoria == 'Mayores' ? divisionesMayores : divisionesInferiores" [style]="{'width':'100%'}" [showClear]="true"></p-dropdown>
+        </div>
+        <div class="col-12 col-sm-4 col-md-3">
+          <p-dropdown [(ngModel)]="selectedGenero" [options]="generos" [style]="{'width':'100%'}" [showClear]="true"></p-dropdown>
+        </div>
+        <div class="col-12 col-sm-12 col-md-3">
+          <p-button label="Buscar" icon="pi pi-search"  [style]="{'width':'100%'}" (onClick)="filtrarPorCategoria()"></p-button>
+        </div>
+      </div>
+
+      <div *ngIf="selectedFiltro == 'equipo'" class="row">
+        <div class="col-12 col-sm-6 col-md-3">
+          <p-dropdown [(ngModel)]="selectedEquipo" [options]="equipos" [style]="{'width':'100%'}" [showClear]="true"  [filter]="true"></p-dropdown>
+        </div>
+        <div class="col-12 col-sm-6 col-md-2">
+          <p-dropdown [(ngModel)]="selectedCategoria" [options]="categorias" [style]="{'width':'100%'}" [showClear]="true"></p-dropdown>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+          <p-dropdown [(ngModel)]="selectedDivision" [options]="selectedCategoria == 'Mayores' ? divisionesMayores : divisionesInferiores" [style]="{'width':'100%'}" [showClear]="true"></p-dropdown>
+        </div>
+        <div class="col-12 col-sm-6 col-md-2">
+          <p-dropdown [(ngModel)]="selectedGenero" [options]="generos" [style]="{'width':'100%'}" [showClear]="true"></p-dropdown>
+        </div>
+        <div class="col-12 col-sm-12 col-md-2">
+          <p-button label="Buscar" icon="pi pi-search"  [style]="{'width':'100%'}" (onClick)="filtarPorEquipo()"></p-button>
+        </div>
+      </div>
+
+      <div *ngIf="selectedFiltro == 'jugador'" class="row">
+        <div class="col-6 col-sm-6 col-md-6">
+          <input pInputText [style]="{'width':'100%'}" placeholder="Buscar jugador..." [(ngModel)]="buscarJugador">
+        </div>
+        <div class="col-6 col-sm-6 col-md-6">
+          <p-button label="Buscar" icon="pi pi-search"  (onClick)="filtrarPorJugador()"></p-button>
+        </div>
+      </div>
+      <p-messages [(value)]="messages" [enableService]="false" [closable]="false"></p-messages>
+
+      <p-messages severity="warn" text="Debe completar todos los filtros"></p-messages>
+    </ng-template>
+
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th *ngIf="selectedFiltro !== 'jugador'" class="text-center">Posición </th>
+            <th>Nombre</th>
+            <th *ngIf="selectedFiltro === 'jugador'" class="text-center">Categoria</th>
+            <th *ngIf="selectedFiltro === 'jugador'" class="text-center">División</th>
+            <th>Equipo</th>
+            <th class="text-center">Goles</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-jugador let-columns="columns" let-rowIndex="rowIndex">
+        <tr>
+            <td *ngIf="selectedFiltro !== 'jugador'" class="text-center">{{rowIndex+1}}</td>
+            <td>{{jugador.nombre}}</td>
+            <td *ngIf="selectedFiltro === 'jugador'" class="text-center">{{jugador.categoria}}</td>
+            <td *ngIf="selectedFiltro === 'jugador'" class="text-center">{{jugador.division}}</td>
+            <td>{{jugador.equipo.nombre}}</td>
+            <td class="text-center">{{jugador.goles}}</td>
+            <!-- <td>{{jugador.quantity}}</td> -->
+            <!-- <td><p-tag [value]="product.inventoryStatus" [severity]="getSeverity(product.inventoryStatus)"></p-tag></td>
+            <td><p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating></td> -->
+        </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<div *ngIf="loading" class="spinner-overlay">
+  <app-spinner-overlay [loading]="loading"></app-spinner-overlay>
+</div>
+
+<p-toast key="tl" position="center" sticky="true" ></p-toast>
+
+
