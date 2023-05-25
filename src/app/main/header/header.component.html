@@ -1,3 +1,4 @@
-<header>
+<header class="d-flex justify-content-between mt-1">
   <p>Ultima actualizacion: {{fechaActualizacion}}</p>
+  <p-inputSwitch [(ngModel)]="checked" (onChange)="changeTheme($event)"></p-inputSwitch>
 </header>

@@ -23,6 +23,8 @@ import { MessagesModule } from 'primeng/messages';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { MessageService } from 'primeng/api';
+import { InputSwitchModule } from 'primeng/inputswitch';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,7 +47,8 @@ import { MessageService } from 'primeng/api';
     ProgressSpinnerModule,
     MessagesModule,
     ToastModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    InputSwitchModule
   ],
   providers: [
     ScrappingService,

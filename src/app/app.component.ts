@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Renderer2 } from '@angular/core';
 import { ScrappingService } from './services/scrapping.service';
+import { ThemeService } from './services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -10,11 +11,16 @@ import { ScrappingService } from './services/scrapping.service';
 export class AppComponent {
   title = 'fe-goleadores-femebal';
 
-  constructor(private scrappingService: ScrappingService) { }
+  constructor(
+    private scrappingService: ScrappingService,
+    ) { }
 
   ngOnInit(): void {
     this.scrappingService.visitCount().subscribe( res => {
       // console.log(res);
     });
+
   }
+
+
 }
