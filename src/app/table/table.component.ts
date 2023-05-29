@@ -2,6 +2,7 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ScrappingService } from '../services/scrapping.service';
 import { Message, MessageService } from 'primeng/api';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-table',
@@ -68,7 +69,7 @@ export class TableComponent implements OnInit, AfterViewInit {
     console.log('selectedFiltro', this.selectedFiltro);
   }
   ngAfterViewInit(): void {
-    this.messageService.add({key: 'tl', severity:'warn', summary:'Aviso', detail:'Todos los datos referentes a los goles son recopilados directamente a partir de las planillas digitales. Si existen discrepancias en el recuento de goles, es decir, si se observan más o menos goles de los que se esperaba, es importante notar que estos inconvenientes están fuera de mi alcance y control.', sticky: true});
+    // this.messageService.add({key: 'tl', severity:'warn', summary:'Aviso', detail:'Todos los datos referentes a los goles son recopilados directamente a partir de las planillas digitales. Si existen discrepancias en el recuento de goles, es decir, si se observan más o menos goles de los que se esperaba, es importante notar que estos inconvenientes están fuera de mi alcance y control.', sticky: true});
   }
 
   ngOnInit(): void {
@@ -197,6 +198,97 @@ export class TableComponent implements OnInit, AfterViewInit {
       }
     });
   }
+
+  download() {
+    const element = document.getElementById('pr_id_2-table');
+    if (!element) {
+      return;
+    }
+
+    html2canvas(element).then((canvas) => {
+      const context = canvas.getContext('2d');
+      if (!context) {
+        return;
+      }
+      console.log('Goleadores: ', this.goleadores.length);
+      // Guarda el contexto actual
+      context.save();
+
+      if(this.goleadores.length > 8){
+        // Configurar el estilo de la marca de agua
+        context.font = '100px Arial';
+        context.fillStyle = 'rgba(0, 0, 0, 0.15)';  // Color negro con 15% de opacidad
+
+        // Traduce el contexto al centro del canvas
+        context.translate(canvas.width / 2, canvas.height / 2);
+        // context.translate(200, 400);
+
+        // Rota el contexto
+        context.rotate(-Math.PI / 4); // Rotar -45 grados (0.785398 radianes)
+
+        // Dibujar la marca de agua en el centro del canvas
+        // context.fillText('@LuYomayel', 0, 0);
+        context.fillText('@LuYomayel', -canvas.width / 2.3, -canvas.height / 5.5);
+
+      }else if(this.goleadores.length > 5){
+        context.font = '70px Arial';
+        context.fillStyle = 'rgba(0, 0, 0, 0.15)';  // Color negro con 15% de opacidad
+
+        // Traduce el contexto al centro del canvas
+        context.translate(canvas.width / 2, canvas.height / 2);
+        // context.translate(200, 400);
+
+        // Rota el contexto
+        context.rotate(-Math.PI / 4); // Rotar -45 grados (0.785398 radianes)
+
+        // Dibujar la marca de agua en el centro del canvas
+        // context.fillText('@LuYomayel', 0, 0);
+        context.fillText('@LuYomayel', -canvas.width / 3.7, -canvas.height / 4.3);
+      }else if(this.goleadores.length > 2){
+        context.font = '50px Arial';
+        context.fillStyle = 'rgba(0, 0, 0, 0.15)';  // Color negro con 15% de opacidad
+
+        // Traduce el contexto al centro del canvas
+        context.translate(canvas.width / 2, canvas.height / 2);
+        // context.translate(200, 400);
+
+        // Rota el contexto
+        context.rotate(-Math.PI / 4); // Rotar -45 grados (0.785398 radianes)
+
+        // Dibujar la marca de agua en el centro del canvas
+        // context.fillText('@LuYomayel', 0, 0);
+        context.fillText('@LuYomayel', -canvas.width / 3.7, -canvas.height / 4.3);
+      }else{
+        context.font = '30px Arial';
+        context.fillStyle = 'rgba(0, 0, 0, 0.15)';  // Color negro con 15% de opacidad
+
+        // Traduce el contexto al centro del canvas
+        context.translate(canvas.width / 2, canvas.height / 2);
+        // context.translate(200, 400);
+
+        // Rota el contexto
+        context.rotate(-Math.PI / 4); // Rotar -45 grados (0.785398 radianes)
+
+        // Dibujar la marca de agua en el centro del canvas
+        // context.fillText('@LuYomayel', 0, 0);
+        context.fillText('@LuYomayel', -canvas.width / 3.7, -canvas.height / 4.3);
+      }
+
+
+      // Restaura el contexto al estado original
+      context.restore();
+
+      // Convertir el canvas a imagen y descargar
+      const imgData = canvas.toDataURL('image/png');
+      const link = document.createElement('a');
+      link.href = imgData;
+      link.download = 'table.png';
+      link.click();
+    });
+}
+
+
+
 
 
   showErrorMessages(mensaje: string) {

@@ -5,6 +5,7 @@
     <p-dropdown [options]="filtroGeneral" [(ngModel)]="selectedFiltro" [style]="{'width':'100%'}" [showClear]="true" (onChange)="onChangeFiltro($event)"></p-dropdown>
   </div>
   <p-table
+    id="table"
     [value]="goleadores"
     [tableStyle]="{'min-width': '50rem'}"
     class="table-responsive"
@@ -24,8 +25,9 @@
         <div class="col-12 col-sm-4 col-md-3">
           <p-dropdown [(ngModel)]="selectedGenero" [options]="generos" [style]="{'width':'100%'}" [showClear]="true"></p-dropdown>
         </div>
-        <div class="col-12 col-sm-12 col-md-3">
-          <p-button label="Buscar" icon="pi pi-search"  [style]="{'width':'100%'}" (onClick)="filtrarPorCategoria()"></p-button>
+        <div class="col-12 col-sm-12 col-md-3 flex-perso">
+          <p-button label="Buscar" icon="pi pi-search" class="boton-perso" [style]="{'width':'100%'}" (onClick)="filtrarPorCategoria()"></p-button>
+          <p-button icon="pi pi-download" (click)="download()" class="descarga-perso"[style]="{'width':'100%'}" ariaLabel="Descargar tabla"></p-button>
         </div>
       </div>
 
@@ -85,6 +87,8 @@
     </ng-template>
   </p-table>
 </div>
+
+
 
 <div *ngIf="loading" class="spinner-overlay">
   <app-spinner-overlay [loading]="loading"></app-spinner-overlay>
