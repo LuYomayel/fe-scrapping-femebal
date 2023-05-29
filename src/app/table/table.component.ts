@@ -35,6 +35,7 @@ export class TableComponent implements OnInit, AfterViewInit {
     { label: 'B', value: 'B' },
     { label: 'C', value: 'C' },
     { label: 'D', value: 'D' },
+    { label: 'E', value: 'E' },
   ];
   generos: any[] = [
     { label: 'Elegir Rama...', value: 'null' },

@@ -50,16 +50,20 @@
 }
 
 :host ::ng-deep{
+  .p-toast .p-toast-icon-close{
+    width: 5rem;
+  }
   @media only screen and (max-width: 920px) {
     .p-toast {
       width: 60% !important;
+
     }
     .p-toast-center {
       left: 0%;
       top: 20%;
       min-width: 20vw;
       transform: none;
-  }
+    }
   }
 
 }

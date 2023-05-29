@@ -1,0 +1,49 @@
+:host{
+  p{
+    margin: 0;
+  }
+  .padding{
+    padding-top: 0.5rem;
+  }
+
+
+
+}
+:host ::ng-deep{
+  .p-inputswitch .p-inputswitch-slider{
+    background: #ced4da;
+  }
+  .p-inputswitch .p-inputswitch-slider:hover{
+    background: #ced4da;
+  }
+  .p-inputswitch.p-inputswitch-checked.p-disabled:hover .p-inputswitch-slider {
+    background: #ced4da;
+  }
+  .p-inputswitch.p-inputswitch-checked:not(.p-disabled):hover .p-inputswitch-slider{
+    background: #ced4da;
+
+  }
+  .p-inputswitch .p-inputswitch-slider:before {
+    content: "\e9c8";
+    // Codigo para icono de luna
+    // top: 0;
+    // left: 0;
+    width: 1.3rem;
+    height: 1.3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "PrimeIcons";
+    font-size: 1rem;
+    color: #000;
+    background-color: #fff;
+    // border-radius: 50%;
+    transition: all 0.3s ease;
+  }
+
+  .p-inputswitch.p-inputswitch-checked .p-inputswitch-slider:before {
+    color: #fff;
+    background-color: #000;
+    content: "\e9c7";
+  }
+}
