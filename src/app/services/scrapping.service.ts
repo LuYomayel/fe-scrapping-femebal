@@ -38,6 +38,18 @@ export class ScrappingService {
     );
   }
 
+  getTableFairPlay() {
+    const categoria = 'Mayores';
+    const division = 'Liga de Honor Oro';
+    const genero = 'Masculino';
+    return this.http.get(this.apiUrl + `jugador/fairplay/${division}/${categoria}/${genero}`).pipe(
+      map((res: any) => {
+        return res;
+      }),
+      catchError(this.handleError)
+    );
+  }
+
   getTableByCategoria(categoria: string, division: string, genero: string) {
     return this.http.get(this.apiUrl + `jugador/categoria/${division}/${categoria}/${genero}`).pipe(
       map((res: any) => {
@@ -47,8 +59,27 @@ export class ScrappingService {
     );
   }
 
+  getTableFairPlayByCategoria(categoria: string, division: string, genero: string) {
+    return this.http.get(this.apiUrl + `jugador/fairplay/${division}/${categoria}/${genero}`).pipe(
+      map((res: any) => {
+        return res;
+      }),
+      catchError(this.handleError)
+    );
+  }
+
   getTableByEquipo(equipo: string, division: string, genero: string, categoria: string) {
     return this.http.get(this.apiUrl + `jugador/equipo/${equipo}/${division}/${categoria}/${genero}`).pipe(
+      map((res: any) => {
+        return res;
+      }),
+      catchError(this.handleError)
+    );
+  }
+
+  getTableFairPlayByEquipo(equipo: string, division: string = 'Liga de Honor Oro', genero: string = "Masculino", categoria: string = "Mayores") {
+    console.log(equipo, division, genero, categoria)
+    return this.http.get(this.apiUrl + `jugador/fairPlayXClub/${equipo}/${division}/${categoria}/${genero}`).pipe(
       map((res: any) => {
         return res;
       }),

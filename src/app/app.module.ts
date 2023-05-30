@@ -9,9 +9,11 @@ import { HeaderComponent } from './main/header/header.component';
 import { LayoutComponent } from './main/layout/layout.component';
 import { ScrappingService } from './services/scrapping.service';
 import { SpinnerOverlayComponent } from './spinner-overlay/spinner-overlay.component';
+import { FairPlayComponent } from './fairplay/fairplay.component';
+import { TableComponent } from './table/table.component';
+
 
 import { TableModule } from 'primeng/table';
-import { TableComponent } from './table/table.component';
 import { HttpClientModule } from '@angular/common/http';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
@@ -24,6 +26,8 @@ import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { MessageService } from 'primeng/api';
 import { InputSwitchModule } from 'primeng/inputswitch';
+import { MenubarModule } from 'primeng/menubar';
+import { TooltipModule } from 'primeng/tooltip';
 
 @NgModule({
   declarations: [
@@ -33,6 +37,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
     TableComponent,
     SpinnerOverlayComponent,
     HeaderComponent,
+    FairPlayComponent
   ],
   imports: [
     BrowserModule,
@@ -48,7 +53,9 @@ import { InputSwitchModule } from 'primeng/inputswitch';
     MessagesModule,
     ToastModule,
     ConfirmDialogModule,
-    InputSwitchModule
+    InputSwitchModule,
+    MenubarModule,
+    TooltipModule
   ],
   providers: [
     ScrappingService,

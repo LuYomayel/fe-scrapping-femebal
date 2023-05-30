@@ -1,0 +1,117 @@
+<div class="container mt-4">
+  <div class="card text-center bg-light">
+    <div class="card-body">
+      <h5 class="card-title">Tabla de Fairplay</h5>
+      <p class="card-text">
+        ¡Estamos trabajando en una tabla de Fairplay!
+        Esta tabla va a mostrar cómo los equipos se portan en la cancha.
+        Va a tener toda la información, desde tarjetas amarillas y rojas por equipo hasta el detalle de cada equipo.
+        Nuestra idea es premiar a los que juegan limpio y demostrar que el handball es mucho más que meter goles.
+      </p>
+      <div class="d-flex justify-content-center">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Cargando...</span>
+        </div>
+      </div>
+      <p class="mt-3">¡Próximamente!</p>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="d-flex align-items-center">
+  <p>Ultima actualizacion: {{fechaActualizacion}}</p>
+</div>
+<div class="container">
+  <h1 class="text-center">
+    Fair Play
+    <i class="fas fa-question-circle" pTooltip="Ponderación: Amarilla = 1 punto, 2' = 2 pts, Roja = 6 pts, Azul = 12pts" tooltipPosition="bottom"></i>
+  </h1>
+  <p-table
+    id="table"
+    [value]="equiposFairPlay"
+    [tableStyle]="{'min-width': '50rem'}"
+    class="table-responsive"
+    [ngClass]="{'watermark' : equiposFairPlay.length > 5, 'watermark-small' : equiposFairPlay.length > 0 && equiposFairPlay.length < 5}"
+    styleClass="p-datatable-gridlines p-datatable-sm"
+    [paginator]="true" [rows]="16" [rowsPerPageOptions]="[16,32]"
+    selectionMode="single"
+    dataKey="equipo._id"
+    [(selection)]="equipoSeleccionado"
+    (onRowSelect)="onRowSelect($event)"
+    (onRowUnselect)="onRowUnselect($event)"
+    >
+    <ng-template  pTemplate="caption">
+      <div *ngIf="!filtroJugador" class="row">
+        <div class="col-12 col-sm-4 col-md-3">
+          <p-dropdown [(ngModel)]="selectedCategoria" [options]="categorias" [style]="{'width':'100%'}" [showClear]="true"></p-dropdown>
+        </div>
+        <div class="col-12 col-sm-4 col-md-3">
+          <p-dropdown [(ngModel)]="selectedDivision" [options]="selectedCategoria == 'Mayores' ? divisionesMayores : divisionesInferiores" [style]="{'width':'100%'}" [showClear]="true"></p-dropdown>
+        </div>
+        <div class="col-12 col-sm-4 col-md-3">
+          <p-dropdown [(ngModel)]="selectedGenero" [options]="generos" [style]="{'width':'100%'}" [showClear]="true"></p-dropdown>
+        </div>
+        <div class="col-12 col-sm-12 col-md-3 flex-perso">
+          <p-button label="Buscar" icon="pi pi-search" class="boton-perso" [style]="{'width':'100%'}" (onClick)="filtrarPorCategoria()"></p-button>
+          <p-button icon="pi pi-download" (click)="download()" class="descarga-perso"[style]="{'width':'100%'}" title="Descargar tabla"></p-button>
+
+        </div>
+      </div>
+      <div *ngIf="filtroJugador" class="d-flex justify-content-end">
+        <p-button icon="pi pi-history" (click)="goBack()" class="pe-2" title="Volver"></p-button>
+        <p-button icon="pi pi-download" (click)="download()"  title="Descargar tabla"></p-button>
+      </div>
+      <p-messages [(value)]="messages" [enableService]="false" [closable]="false"></p-messages>
+    </ng-template>
+
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th class="text-center">#</th>
+            <th *ngIf="!filtroJugador">Equipo</th>
+            <th *ngIf="filtroJugador">Jugador</th>
+            <th class="text-center">Amarillas</th>
+            <th class="text-center">2 min</th>
+            <th class="text-center">Rojas</th>
+            <th class="text-center">Azules</th>
+            <th class="text-center">Pts</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-equipo let-columns="columns" let-rowIndex="rowIndex">
+        <tr [pSelectableRow]="equipo">
+            <td class="text-center">{{rowIndex+1}}</td>
+            <td *ngIf="!filtroJugador">{{equipo.equipo.nombre}}</td>
+            <td *ngIf="filtroJugador">{{equipo.equipo}}</td>
+            <td class="text-center">{{equipo.amarillas}}</td>
+            <td class="text-center">{{equipo.dosmin}}</td>
+            <td class="text-center">{{equipo.rojas}}</td>
+            <td class="text-center">{{equipo.azules}}</td>
+            <td class="text-center">{{equipo.fairPlay}}</td>
+        </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+
+
+<div *ngIf="loading" class="spinner-overlay">
+  <app-spinner-overlay [loading]="loading"></app-spinner-overlay>
+</div>
+
+<p-toast key="tl" position="center" sticky="true" ></p-toast> -->
+
+

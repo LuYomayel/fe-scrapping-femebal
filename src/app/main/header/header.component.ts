@@ -3,8 +3,10 @@
 import { Component, OnInit, Renderer2  } from '@angular/core';
 import { Router } from '@angular/router';
 import { ScrappingService } from 'src/app/services/scrapping.service';
-import * as moment from 'moment';
+
 import { ThemeService } from '../../services/theme.service';
+import { MenuItem } from 'primeng/api';
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -12,8 +14,21 @@ import { ThemeService } from '../../services/theme.service';
   providers: [ ScrappingService]
 })
 export class HeaderComponent implements OnInit{
-  fechaActualizacion: string = '';
+
   checked: boolean = false;
+  items: MenuItem[] = [
+    {
+      label: 'Goleadores',
+      // icon: 'pi pi-fw pi-home',
+      routerLink: '/'
+    },
+    {
+      label: 'Fair Play',
+      // icon: 'pi pi-fw pi-users',
+      routerLink: '/fairplay'
+    }
+  ];
+
   constructor(
     private router: Router,
     private scrappingService: ScrappingService,
@@ -23,11 +38,7 @@ export class HeaderComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.scrappingService.getUltimaActualizacion().subscribe( res => {
-      const date = new Date(res.ultima_actualizacion);
-      this.fechaActualizacion = moment(date).format('DD/MM/YYYY - HH:mm:ss');
 
-    });
   }
 
   changeTheme(event: any) {

@@ -1,21 +1,29 @@
+<div class="d-flex align-items-center">
+  <p>Ultima actualizacion: {{fechaActualizacion}}</p>
+</div>
 <div class="container">
   <h1 class="text-center">Goleadores</h1>
   <div class="d-flex flex-row align-items-center mb-4">
     <label for="filtroGeneral" class="pe-2">Filtrar por:</label>
     <p-dropdown [options]="filtroGeneral" [(ngModel)]="selectedFiltro" [style]="{'width':'100%'}" [showClear]="true" (onChange)="onChangeFiltro($event)"></p-dropdown>
   </div>
+
   <p-table
     id="table"
     [value]="goleadores"
     [tableStyle]="{'min-width': '50rem'}"
     class="table-responsive"
     [ngClass]="{'watermark' : goleadores.length > 5, 'watermark-small' : goleadores.length > 0 && goleadores.length < 5}"
-    styleClass="p-datatable-gridlines "
-    [paginator]="true" [rows]="10"
+    styleClass="p-datatable-gridlines p-datatable-sm"
+    [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,50]"
     emptyMessage="No hay datos"
+    [globalFilterFields]="['nombre', 'equipo']"
     >
-    <ng-template pTemplate="caption">
-      <div *ngIf="selectedFiltro == 'categoria'" class="row">
+    <ng-template pTemplate="caption" >
+      <h4 *ngIf="selectedFiltro == 'categoria'" id="tableTitle" class="d-none text-center">{{selectedCategoria == 'null' ? 'Mayores' : selectedCategoria}} - {{selectedDivision == 'null' ? 'Liga de Honor Oro' : selectedDivision}} - {{selectedGenero == 'null' ? 'Masculino' : selectedGenero}}</h4>
+      <h4 *ngIf="selectedFiltro == 'equipo'" id="tableTitle" class="d-none text-center">{{equipoSeleccionado.label}} - {{selectedCategoria == 'null' ? 'Mayores' : selectedCategoria}} - {{selectedDivision == 'null' ? 'Liga de Honor Oro' : selectedDivision}} - {{selectedGenero == 'null' ? 'Masculino' : selectedGenero}}</h4>
+      <h4 *ngIf="selectedFiltro == 'jugador'" id="tableTitle" class="d-none text-center">Busqueda de jugador</h4>
+      <div *ngIf="selectedFiltro == 'categoria'" class="row" id="captionId">
         <div class="col-12 col-sm-4 col-md-3">
           <p-dropdown [(ngModel)]="selectedCategoria" [options]="categorias" [style]="{'width':'100%'}" [showClear]="true"></p-dropdown>
         </div>
@@ -31,9 +39,9 @@
         </div>
       </div>
 
-      <div *ngIf="selectedFiltro == 'equipo'" class="row">
+      <div *ngIf="selectedFiltro == 'equipo'" class="row" id="captionId">
         <div class="col-12 col-sm-6 col-md-3">
-          <p-dropdown [(ngModel)]="selectedEquipo" [options]="equipos" [style]="{'width':'100%'}" [showClear]="true"  [filter]="true"></p-dropdown>
+          <p-dropdown [(ngModel)]="selectedEquipo" (ngModelChange)="equipoChange($event)" [options]="equipos" [style]="{'width':'100%'}" [showClear]="true"  [filter]="true"></p-dropdown>
         </div>
         <div class="col-12 col-sm-6 col-md-2">
           <p-dropdown [(ngModel)]="selectedCategoria" [options]="categorias" [style]="{'width':'100%'}" [showClear]="true"></p-dropdown>
@@ -50,7 +58,7 @@
         </div>
       </div>
 
-      <div *ngIf="selectedFiltro == 'jugador'" class="row">
+      <div *ngIf="selectedFiltro == 'jugador'" class="row" id="captionId">
         <div class="col-6 col-sm-6 col-md-6">
           <input pInputText [style]="{'width':'100%'}" placeholder="Buscar jugador..." [(ngModel)]="buscarJugador">
         </div>
@@ -64,13 +72,23 @@
       <p-messages severity="warn" text="Debe completar todos los filtros"></p-messages>
     </ng-template>
 
-    <ng-template pTemplate="header" let-columns>
-        <tr>
-            <th *ngIf="selectedFiltro !== 'jugador'" class="text-center">Posición </th>
-            <th>Nombre</th>
+    <ng-template pTemplate="header" let-columns >
+        <tr id="headerId">
+            <th *ngIf="selectedFiltro !== 'jugador'" class="text-center"># </th>
+            <th >
+              <div class="row align-items-center">
+                <p class="col-12 col-md-2 col-sm-2">Nombre</p>
+                <p-columnFilter id="filtroDos" class="col"type="text" field="nombre"></p-columnFilter>
+              </div>
+            </th>
             <th *ngIf="selectedFiltro === 'jugador'" class="text-center">Categoria</th>
             <th *ngIf="selectedFiltro === 'jugador'" class="text-center">División</th>
-            <th>Equipo</th>
+            <th >
+              <div class="row align-items-center">
+                <p class="col-12 col-md-2 col-sm-2">Equipo</p>
+                <p-columnFilter id="filtroUno" class="col"type="text" field="equipo"></p-columnFilter>
+              </div>
+            </th>
             <th class="text-center">Goles</th>
             <th class="text-center">PJ</th>
             <th class="text-center">PG</th>
@@ -78,7 +96,7 @@
     </ng-template>
     <ng-template pTemplate="body" let-jugador let-columns="columns" let-rowIndex="rowIndex">
         <tr >
-            <td *ngIf="selectedFiltro !== 'jugador'" class="text-center">{{rowIndex+1}}</td>
+            <td *ngIf="selectedFiltro !== 'jugador'" class="text-center">{{jugador.posicion}}</td>
             <td>{{jugador.nombre}}</td>
             <td *ngIf="selectedFiltro === 'jugador'" class="text-center">{{jugador.categoria}}</td>
             <td *ngIf="selectedFiltro === 'jugador'" class="text-center">{{jugador.division}}</td>

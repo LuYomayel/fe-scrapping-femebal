@@ -1,8 +1,11 @@
-<header class="d-flex flex-row justify-content-between align-items-center mt-1">
-  <div class="d-flex align-items-center">
-    <p>Ultima actualizacion: {{fechaActualizacion}}</p>
-  </div>
-  <div class="d-flex flex-row align-items-center justify-content-between ">
-    <p-inputSwitch class="padding" [(ngModel)]="checked" (onChange)="changeTheme($event)"></p-inputSwitch>
-  </div>
+<header class="">
+  <p-menubar [model]="items">
+    <ng-template pTemplate="end">
+      <div class="d-flex flex-row align-items-center justify-content-between ">
+        <p-inputSwitch class="padding" [(ngModel)]="checked" (onChange)="changeTheme($event)"></p-inputSwitch>
+      </div>
+    </ng-template>
+  </p-menubar>
+
 </header>
+
