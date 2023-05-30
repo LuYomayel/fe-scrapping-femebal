@@ -27,7 +27,7 @@
         </div>
         <div class="col-12 col-sm-12 col-md-3 flex-perso">
           <p-button label="Buscar" icon="pi pi-search" class="boton-perso" [style]="{'width':'100%'}" (onClick)="filtrarPorCategoria()"></p-button>
-          <p-button icon="pi pi-download" (click)="download()" class="descarga-perso"[style]="{'width':'100%'}" ariaLabel="Descargar tabla"></p-button>
+          <p-button icon="pi pi-download" (click)="download()" class="descarga-perso"[style]="{'width':'100%'}" title="Descargar tabla"></p-button>
         </div>
       </div>
 
@@ -44,8 +44,9 @@
         <div class="col-12 col-sm-6 col-md-2">
           <p-dropdown [(ngModel)]="selectedGenero" [options]="generos" [style]="{'width':'100%'}" [showClear]="true"></p-dropdown>
         </div>
-        <div class="col-12 col-sm-12 col-md-2">
-          <p-button label="Buscar" icon="pi pi-search"  [style]="{'width':'100%'}" (onClick)="filtarPorEquipo()"></p-button>
+        <div class="col-12 col-sm-12 col-md-2 flex-perso">
+          <p-button label="Buscar" icon="pi pi-search"  [style]="{'width':'100%'}" class="boton-perso" (onClick)="filtarPorEquipo()"></p-button>
+          <p-button icon="pi pi-download" (click)="download()" class="descarga-perso"[style]="{'width':'100%'}" title="Descargar tabla"></p-button>
         </div>
       </div>
 
@@ -53,8 +54,9 @@
         <div class="col-6 col-sm-6 col-md-6">
           <input pInputText [style]="{'width':'100%'}" placeholder="Buscar jugador..." [(ngModel)]="buscarJugador">
         </div>
-        <div class="col-6 col-sm-6 col-md-6">
-          <p-button label="Buscar" icon="pi pi-search"  (onClick)="filtrarPorJugador()"></p-button>
+        <div class="col-6 col-sm-6 col-md-6 flex-perso">
+          <p-button label="Buscar" icon="pi pi-search" class="boton-perso" (onClick)="filtrarPorJugador()"></p-button>
+          <p-button icon="pi pi-download" (click)="download()" class="descarga-perso"[style]="{'width':'100%'}" title="Descargar tabla"></p-button>
         </div>
       </div>
       <p-messages [(value)]="messages" [enableService]="false" [closable]="false"></p-messages>
@@ -70,6 +72,8 @@
             <th *ngIf="selectedFiltro === 'jugador'" class="text-center">División</th>
             <th>Equipo</th>
             <th class="text-center">Goles</th>
+            <th class="text-center">PJ</th>
+            <th class="text-center">PG</th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-jugador let-columns="columns" let-rowIndex="rowIndex">
@@ -78,8 +82,10 @@
             <td>{{jugador.nombre}}</td>
             <td *ngIf="selectedFiltro === 'jugador'" class="text-center">{{jugador.categoria}}</td>
             <td *ngIf="selectedFiltro === 'jugador'" class="text-center">{{jugador.division}}</td>
-            <td>{{jugador.equipo.nombre}}</td>
+            <td>{{jugador.equipo}}</td>
             <td class="text-center">{{jugador.goles}}</td>
+            <td class="text-center">{{jugador.cantPartidos}}</td>
+            <td class="text-center">{{jugador.promedioGoles}}</td>
             <!-- <td>{{jugador.quantity}}</td> -->
             <!-- <td><p-tag [value]="product.inventoryStatus" [severity]="getSeverity(product.inventoryStatus)"></p-tag></td>
             <td><p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating></td> -->

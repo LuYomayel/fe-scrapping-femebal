@@ -69,7 +69,7 @@ export class TableComponent implements OnInit, AfterViewInit {
     console.log('selectedFiltro', this.selectedFiltro);
   }
   ngAfterViewInit(): void {
-    // this.messageService.add({key: 'tl', severity:'warn', summary:'Aviso', detail:'Todos los datos referentes a los goles son recopilados directamente a partir de las planillas digitales. Si existen discrepancias en el recuento de goles, es decir, si se observan más o menos goles de los que se esperaba, es importante notar que estos inconvenientes están fuera de mi alcance y control.', sticky: true});
+    this.messageService.add({key: 'tl', severity:'warn', summary:'Aviso', detail:'Todos los datos referentes a los goles son recopilados directamente a partir de las planillas digitales. Si existen discrepancias en el recuento de goles, es decir, si se observan más o menos goles de los que se esperaba, es importante notar que estos inconvenientes están fuera de mi alcance y control.', sticky: true});
   }
 
   ngOnInit(): void {
@@ -83,7 +83,19 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.scrappingService.getTable().subscribe({
       next: (res: any) => {
         console.log(res);
-        this.goleadores = res.goleadores;
+        // this.goleadores = res.goleadores;
+        this.goleadores = res.goleadores.map((goleador: any) => {
+          return {
+            nombre: goleador.nombre,
+            promedioGoles: (goleador.goles / goleador.fechas.length).toFixed(2),
+            goles: goleador.goles,
+            fechas: goleador.fechas.length,
+            equipo: goleador.equipo.nombre,
+            categoria: goleador.categoria,
+            division: goleador.division,
+            cantPartidos: goleador.fechas.length,
+          }
+        })
       },
       error: (error) => {
         console.log(error);
@@ -136,8 +148,22 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.scrappingService.getTableByCategoria(this.selectedCategoria, this.selectedDivision, this.selectedGenero).subscribe({
       next: (res: any) => {
         console.log(res);
-        this.goleadores = res.goleadores;
-      },
+        // this.goleadores = res.goleadores;
+        this.goleadores = res.goleadores.map((goleador: any) => {
+          return {
+            nombre: goleador.nombre,
+            promedioGoles: (goleador.goles / goleador.fechas.length).toFixed(2),
+            goles: goleador.goles,
+            fechas: goleador.fechas.length,
+            equipo: goleador.equipo.nombre,
+            categoria: goleador.categoria,
+            division: goleador.division,
+            cantPartidos: goleador.fechas.length,
+          }
+        })
+        // console.log('goleadoresxd', goleadoresxd);
+      }
+      ,
       error: (error) => {
         console.log(error);
         me.loading = false;
@@ -161,7 +187,19 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.scrappingService.getTableByEquipo(this.selectedEquipo, this.selectedDivision, this.selectedGenero, this.selectedCategoria).subscribe({
       next: (res: any) => {
         console.log(res);
-        this.goleadores = res.goleadores;
+        // this.goleadores = res.goleadores;
+        this.goleadores = res.goleadores.map((goleador: any) => {
+          return {
+            nombre: goleador.nombre,
+            promedioGoles: (goleador.goles / goleador.fechas.length).toFixed(2),
+            goles: goleador.goles,
+            fechas: goleador.fechas.length,
+            equipo: goleador.equipo.nombre,
+            categoria: goleador.categoria,
+            division: goleador.division,
+            cantPartidos: goleador.fechas.length,
+          }
+        })
       },
       error: (error) => {
         console.log(error);
@@ -186,7 +224,19 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.scrappingService.getTableByJugador(this.buscarJugador).subscribe({
       next: (res: any) => {
         console.log(res);
-        this.goleadores = res.goleadores;
+        // this.goleadores = res.goleadores;
+        this.goleadores = res.goleadores.map((goleador: any) => {
+          return {
+            nombre: goleador.nombre,
+            promedioGoles: (goleador.goles / goleador.fechas.length).toFixed(2),
+            goles: goleador.goles,
+            fechas: goleador.fechas.length,
+            equipo: goleador.equipo.nombre,
+            categoria: goleador.categoria,
+            division: goleador.division,
+            cantPartidos: goleador.fechas.length,
+          }
+        })
       },
       error: (error) => {
         console.log(error);
@@ -206,6 +256,8 @@ export class TableComponent implements OnInit, AfterViewInit {
     }
 
     html2canvas(element).then((canvas) => {
+      // canvas.width = 1600 ;
+      // canvas.height = 1256;
       const context = canvas.getContext('2d');
       if (!context) {
         return;
@@ -213,7 +265,26 @@ export class TableComponent implements OnInit, AfterViewInit {
       console.log('Goleadores: ', this.goleadores.length);
       // Guarda el contexto actual
       context.save();
+      /*
+      // Configurar el estilo de la marca de agua
+      context.font = `${canvas.height * 0.10}px Arial`;
+      context.fillStyle = 'rgba(0, 0, 0, 0.15)';  // Color negro con 15% de opacidad
 
+      // Traduce el contexto al centro del canvas
+      context.translate(canvas.width / 2, canvas.height / 2);
+
+      // Rota el contexto
+      context.rotate(-Math.PI / 4); // Rotar -45 grados
+
+      // Obtiene el tamaño del texto
+      const metrics = context.measureText('@LuYomayel');
+      const textWidth = metrics.width;
+      const textHeight = metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent;
+
+      // Dibujar la marca de agua en el centro del canvas
+      context.fillText('@LuYomayel', -textWidth / 2, textHeight / 2);
+      */
+      /*
       if(this.goleadores.length > 8){
         // Configurar el estilo de la marca de agua
         context.font = '100px Arial';
@@ -273,7 +344,7 @@ export class TableComponent implements OnInit, AfterViewInit {
         // context.fillText('@LuYomayel', 0, 0);
         context.fillText('@LuYomayel', -canvas.width / 3.7, -canvas.height / 4.3);
       }
-
+      */
 
       // Restaura el contexto al estado original
       context.restore();
