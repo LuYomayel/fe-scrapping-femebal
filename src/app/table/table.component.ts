@@ -285,7 +285,9 @@ export class TableComponent implements OnInit, AfterViewInit {
       const imgData = canvas.toDataURL('image/png');
       const link = document.createElement('a');
       link.href = imgData;
-      link.download = 'table.png';
+      const titulo = `${this.selectedCategoria == 'null' ? 'Mayores' : this.selectedCategoria}_${this.selectedDivision == 'null' ? 'Liga de Honor Oro' : this.selectedDivision}_${this.selectedGenero == 'null' ? 'Masculino' : this.selectedGenero}`;
+
+      link.download = `${titulo}.png`;
       link.click();
       caption.classList.remove('d-none' );
       filtroUno.classList.remove('d-none' );
