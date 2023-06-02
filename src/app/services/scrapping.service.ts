@@ -122,4 +122,13 @@ export class ScrappingService {
       catchError(this.handleError)
     );
   }
+
+  getEstadisticas(idJugador: string){
+    return this.http.get(this.apiUrl + `jugador/estadisticasJugador/${idJugador}`).pipe(
+      map((res: any) => {
+        return res;
+      }),
+      catchError(this.handleError)
+    );
+  }
 }

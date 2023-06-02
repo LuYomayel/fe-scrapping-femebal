@@ -1,42 +1,7 @@
-<!-- <div class="container mt-4">
-  <div class="card text-center bg-light">
-    <div class="card-body">
-      <h5 class="card-title">Tabla de Fairplay</h5>
-      <p class="card-text">
-        ¡Estamos trabajando en una tabla de Fairplay!
-        Esta tabla va a mostrar cómo los equipos se portan en la cancha.
-        Va a tener toda la información, desde tarjetas amarillas y rojas por equipo hasta el detalle de cada equipo.
-        Nuestra idea es premiar a los que juegan limpio y demostrar que el handball es mucho más que meter goles.
-      </p>
-      <div class="d-flex justify-content-center">
-        <div class="spinner-border text-primary" role="status">
-          <span class="visually-hidden">Cargando...</span>
-        </div>
-      </div>
-      <p class="mt-3">¡Próximamente!</p>
-    </div>
-  </div>
-
-</div> -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="d-flex align-items-center">
   <p>Ultima actualizacion: {{fechaActualizacion}}</p>
 </div>
-<div class="container">
+<div *ngIf="!jugadorSeleccionado" class="container">
   <h1 class="text-center">
     Fair Play
     <i class="fas fa-question-circle" pTooltip="Ponderación: Amarilla = 1 punto, 2' = 2 pts, Roja = 6 pts, Azul = 12pts" tooltipPosition="bottom"></i>
@@ -50,7 +15,7 @@
     styleClass="p-datatable-gridlines p-datatable-sm"
     [paginator]="true" [rows]="16" [rowsPerPageOptions]="[16,32]"
     selectionMode="single"
-    dataKey="equipo._id"
+    [dataKey]="!filtroJugador ? 'equipo._id' : '_id'"
     [(selection)]="equipoSeleccionado"
     (onRowSelect)="onRowSelect($event)"
     (onRowUnselect)="onRowUnselect($event)"
@@ -72,9 +37,15 @@
 
         </div>
       </div>
-      <div *ngIf="filtroJugador" class="d-flex justify-content-end">
-        <p-button icon="pi pi-history" (click)="goBack()" class="pe-2" title="Volver"></p-button>
-        <p-button icon="pi pi-download" (click)="download()"  title="Descargar tabla"></p-button>
+      <div *ngIf="filtroJugador" class="d-flex justify-content-between">
+
+        <div>
+          <h3>{{equipoNombre}}</h3>
+        </div>
+        <div class="d-flex justify-content-end">
+          <p-button icon="pi pi-history" (click)="goBack()" class="pe-2" title="Volver"></p-button>
+          <p-button icon="pi pi-download" (click)="download()"  title="Descargar tabla"></p-button>
+        </div>
       </div>
       <p-messages [(value)]="messages" [enableService]="false" [closable]="false"></p-messages>
     </ng-template>
@@ -95,7 +66,7 @@
         <tr [pSelectableRow]="equipo">
             <td class="text-center">{{rowIndex+1}}</td>
             <td *ngIf="!filtroJugador">{{equipo.equipo.nombre}}</td>
-            <td *ngIf="filtroJugador">{{equipo.equipo}}</td>
+            <td *ngIf="filtroJugador">{{equipo.nombre}}</td>
             <td class="text-center">{{equipo.amarillas}}</td>
             <td class="text-center">{{equipo.dosmin}}</td>
             <td class="text-center">{{equipo.rojas}}</td>
@@ -106,7 +77,7 @@
   </p-table>
 </div>
 
-
+<app-perfil-jugador *ngIf="jugadorSeleccionado" [jugador]="jugadorSeleccionado" (jugadorEliminado)="onJugadorEliminado()"></app-perfil-jugador>
 
 <div *ngIf="loading" class="spinner-overlay">
   <app-spinner-overlay [loading]="loading"></app-spinner-overlay>

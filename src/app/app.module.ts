@@ -28,6 +28,7 @@ import { MessageService } from 'primeng/api';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { MenubarModule } from 'primeng/menubar';
 import { TooltipModule } from 'primeng/tooltip';
+import { PerfilJugadorComponent } from './perfil-jugador/perfil-jugador.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { TooltipModule } from 'primeng/tooltip';
     TableComponent,
     SpinnerOverlayComponent,
     HeaderComponent,
-    FairPlayComponent
+    FairPlayComponent,
+    PerfilJugadorComponent
   ],
   imports: [
     BrowserModule,

@@ -90,19 +90,7 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.scrappingService.getTable().subscribe({
       next: (res: any) => {
         // this.goleadores = res.goleadores;
-        this.goleadores = res.goleadores.map((goleador: any, index:number) => {
-          return {
-            posicion: index + 1,
-            nombre: goleador.nombre,
-            promedioGoles: (goleador.goles / goleador.fechas.length).toFixed(2),
-            goles: goleador.goles,
-            fechas: goleador.fechas.length,
-            equipo: goleador.equipo.nombre,
-            categoria: goleador.categoria,
-            division: goleador.division,
-            cantPartidos: goleador.fechas.length,
-          }
-        })
+        this.goleadores = this.mapearJugadores(res.goleadores);
       },
       error: (error) => {
         console.log(error);
@@ -150,21 +138,8 @@ export class TableComponent implements OnInit, AfterViewInit {
 
     this.scrappingService.getTableByCategoria(this.selectedCategoria, this.selectedDivision, this.selectedGenero).subscribe({
       next: (res: any) => {
-        // this.goleadores = res.goleadores;
-        this.goleadores = res.goleadores.map((goleador: any, index:number) => {
-          return {
-            posicion: index + 1,
-            nombre: goleador.nombre,
-            promedioGoles: (goleador.goles / goleador.fechas.length).toFixed(2),
-            goles: goleador.goles,
-            fechas: goleador.fechas.length,
-            equipo: goleador.equipo.nombre,
-            categoria: goleador.categoria,
-            division: goleador.division,
-            cantPartidos: goleador.fechas.length,
-          }
-        })
-        // console.log('goleadoresxd', goleadoresxd);
+        this.goleadores = this.mapearJugadores(res.goleadores);
+        return;
       }
       ,
       error: (error) => {
@@ -188,20 +163,8 @@ export class TableComponent implements OnInit, AfterViewInit {
     }
     this.scrappingService.getTableByEquipo(this.selectedEquipo, this.selectedDivision, this.selectedGenero, this.selectedCategoria).subscribe({
       next: (res: any) => {
-        // this.goleadores = res.goleadores;
-        this.goleadores = res.goleadores.map((goleador: any, index:number) => {
-          return {
-            posicion: index + 1,
-            nombre: goleador.nombre,
-            promedioGoles: (goleador.goles / goleador.fechas.length).toFixed(2),
-            goles: goleador.goles,
-            fechas: goleador.fechas.length,
-            equipo: goleador.equipo.nombre,
-            categoria: goleador.categoria,
-            division: goleador.division,
-            cantPartidos: goleador.fechas.length,
-          }
-        })
+        this.goleadores = this.mapearJugadores(res.goleadores);
+        return;
       },
       error: (error) => {
         console.log(error);
@@ -225,20 +188,8 @@ export class TableComponent implements OnInit, AfterViewInit {
     }
     this.scrappingService.getTableByJugador(this.buscarJugador).subscribe({
       next: (res: any) => {
-        // this.goleadores = res.goleadores;
-        this.goleadores = res.goleadores.map((goleador: any, index:number) => {
-          return {
-            posicion: index + 1,
-            nombre: goleador.nombre,
-            promedioGoles: (goleador.goles / goleador.fechas.length).toFixed(2),
-            goles: goleador.goles,
-            fechas: goleador.fechas.length,
-            equipo: goleador.equipo.nombre,
-            categoria: goleador.categoria,
-            division: goleador.division,
-            cantPartidos: goleador.fechas.length,
-          }
-        })
+        this.goleadores = this.mapearJugadores(res.goleadores);
+        return;
       },
       error: (error) => {
         console.log(error);
@@ -251,6 +202,54 @@ export class TableComponent implements OnInit, AfterViewInit {
     });
   }
 
+  mapearJugadores(jugadores:any[]){
+    return jugadores.map((goleador: any, index:number) => {
+      const estadisticasXFecha = goleador.estadisticasXFecha;
+      let goles = 0;
+      let amarillas = 0;
+      let rojas = 0;
+      let dosmin = 0;
+      let azules = 0;
+      let fechas = 0;
+      for (let fecha in estadisticasXFecha) {
+        goles += estadisticasXFecha[fecha].goles;
+        amarillas += estadisticasXFecha[fecha].amarillas;
+        rojas += estadisticasXFecha[fecha].rojas;
+        dosmin += estadisticasXFecha[fecha].dosmin;
+        azules += estadisticasXFecha[fecha].azules;
+        fechas++;
+      }
+      return {
+        _id: goleador._id,
+        nombre: goleador.nombre,
+        promedioGoles: (goles / fechas).toFixed(2),
+        goles,
+        fechas,
+        equipo: goleador.equipo.nombre,
+        categoria: goleador.categoria,
+        division: goleador.division,
+        cantPartidos: fechas,
+      }
+    }).sort((a, b) => {
+      return b.goles - a.goles;
+    }).map((goleador, index) => {
+      return {
+        ...goleador,
+        posicion: index + 1
+      }
+    }
+    )
+  }
+
+  jugadorSeleccionado : any;
+  onRowSelect(event: any) {
+
+    this.jugadorSeleccionado = event.data;
+  }
+
+  onJugadorEliminado(){
+    this.jugadorSeleccionado = null;
+  }
   download() {
     // const element = document.getElementById('pr_id_2-table');
     // const element = document.querySelector('[id^="pr_id"][id$="-table"]') as HTMLElement;
@@ -301,7 +300,6 @@ export class TableComponent implements OnInit, AfterViewInit {
     value: ''
   };
   equipoChange(event: any){
-    console.log(this.equipos)
     this.equipoSeleccionado = this.equipos.find(equipo => equipo.value == event)
   }
 

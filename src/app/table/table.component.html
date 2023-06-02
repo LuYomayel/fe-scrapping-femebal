@@ -1,7 +1,7 @@
 <div class="d-flex align-items-center">
   <p>Ultima actualizacion: {{fechaActualizacion}}</p>
 </div>
-<div class="container">
+<div *ngIf="jugadorSeleccionado == null" class="container">
   <h1 class="text-center">Goleadores</h1>
   <div class="d-flex flex-row align-items-center mb-4">
     <label for="filtroGeneral" class="pe-2">Filtrar por:</label>
@@ -9,6 +9,7 @@
   </div>
 
   <p-table
+
     id="table"
     [value]="goleadores"
     [tableStyle]="{'min-width': '50rem'}"
@@ -18,6 +19,10 @@
     [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,50]"
     emptyMessage="No hay datos"
     [globalFilterFields]="['nombre', 'equipo']"
+    dataKey="posicion"
+    selectionMode="single"
+    [(selection)]="jugadorSeleccionado"
+    (onRowSelect)="onRowSelect($event)"
     >
     <ng-template pTemplate="caption" >
       <h4 *ngIf="selectedFiltro == 'categoria'" id="tableTitle" class="d-none text-center">{{selectedCategoria == 'null' ? 'Mayores' : selectedCategoria}} - {{selectedDivision == 'null' ? 'Liga de Honor Oro' : selectedDivision}} - {{selectedGenero == 'null' ? 'Masculino' : selectedGenero}}</h4>
@@ -95,7 +100,7 @@
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-jugador let-columns="columns" let-rowIndex="rowIndex">
-        <tr >
+        <tr [pSelectableRow]="jugador">
             <td *ngIf="selectedFiltro !== 'jugador'" class="text-center">{{jugador.posicion}}</td>
             <td>{{jugador.nombre}}</td>
             <td *ngIf="selectedFiltro === 'jugador'" class="text-center">{{jugador.categoria}}</td>
@@ -112,7 +117,7 @@
   </p-table>
 </div>
 
-
+<app-perfil-jugador *ngIf="jugadorSeleccionado" [jugador]="jugadorSeleccionado" (jugadorEliminado)="onJugadorEliminado()"></app-perfil-jugador>
 
 <div *ngIf="loading" class="spinner-overlay">
   <app-spinner-overlay [loading]="loading"></app-spinner-overlay>

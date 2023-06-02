@@ -160,7 +160,6 @@ export class FairPlayComponent implements OnInit, AfterViewInit {
     // const element = document.getElementById('pr_id_1-table');
     const element = document.querySelector('[id^="pr_id"][id$="-table"]') as HTMLElement;
 
-    console.log('element', element)
     if (!element) {
       return;
     }
@@ -186,26 +185,35 @@ export class FairPlayComponent implements OnInit, AfterViewInit {
       link.click();
     });
   }
-
+  equipoNombre: string = '';
   onRowSelect(event: any) {
-
-    this.scrappingService.getTableFairPlayByEquipo(event.data.equipo._id, event.data.props.division,event.data.props.genero, event.data.props.categoria).subscribe({
-      next: (res: any) => {
-        this.guardarTabla = this.equiposFairPlay;
-        this.equiposFairPlay = res;
-        this.filtroJugador = true;
-      }
-    });
+    if(this.filtroJugador == false){
+      console.log(event.data);
+      this.equipoNombre = event.data.equipo.nombre;
+      this.scrappingService.getTableFairPlayByEquipo(event.data.equipo._id, event.data.props.division,event.data.props.genero, event.data.props.categoria).subscribe({
+        next: (res: any) => {
+          this.guardarTabla = this.equiposFairPlay;
+          this.equiposFairPlay = res;
+          this.filtroJugador = true;
+        }
+      });
+    }else{
+      this.jugadorSeleccionado = event.data;
+    }
 
   }
 
+  jugadorSeleccionado : any = null;
+
+  onJugadorEliminado(){
+    this.jugadorSeleccionado = null;
+  }
   goBack(){
     this.filtroJugador = false;
     this.equiposFairPlay = this.guardarTabla;
 
   }
   onRowUnselect(event: any) {
-    console.log('event');
   }
 
   showErrorMessages(mensaje: string) {
