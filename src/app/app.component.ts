@@ -18,9 +18,9 @@ export class AppComponent {
     ) { }
 
   ngOnInit(): void {
-    this.scrappingService.visitCount().subscribe( res => {
-      // console.log(res);
-    });
+    // this.scrappingService.visitCount().subscribe( res => {
+    //   // console.log(res);
+    // });
     this.config.setTranslation({
       accept: 'Aceptar',
       reject: 'Cancelar',

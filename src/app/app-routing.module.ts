@@ -4,8 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { TableComponent } from './table/table.component';
 import { FairPlayComponent } from './fairplay/fairplay.component';
 const routes: Routes = [
-  { path: '', component: TableComponent },
-  { path: 'fairplay', component: FairPlayComponent },
+  { path: 'goleadores/torneo/:year/:tipo', component: TableComponent },
+  { path: 'fairplay/torneo/:year/:tipo', component: FairPlayComponent },
 ];
 
 @NgModule({

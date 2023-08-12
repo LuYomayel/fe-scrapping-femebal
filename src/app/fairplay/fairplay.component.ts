@@ -1,9 +1,10 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ScrappingService } from '../services/scrapping.service';
 import { Message, MessageService } from 'primeng/api';
 import html2canvas from 'html2canvas';
 import * as moment from 'moment';
+import { Torneo } from '../main/header/header.component';
 
 @Component({
   selector: 'app-fairplay',
@@ -69,11 +70,21 @@ export class FairPlayComponent implements OnInit, AfterViewInit {
 
   fechaActualizacion: string = '';
 
+  torneo: Torneo = {
+    year: 2023,
+    tipo: 'APERTURA',
+  }
   constructor(
     protected router: Router,
     protected scrappingService: ScrappingService,
-    protected messageService: MessageService
+    protected messageService: MessageService,
+    protected route: ActivatedRoute,
   ) {
+    const year = this.route.snapshot.paramMap.get('year');
+    const tipo = this.route.snapshot.paramMap.get('tipo');
+    this.torneo.year = parseInt(year || '2023');
+    this.torneo.tipo = tipo || 'APERTURA';
+    console.log(this.torneo);
   }
   ngAfterViewInit(): void {
     this.messageService.add({key: 'tl', severity:'warn', summary:'Aviso', detail:'Todos los datos referentes a los goles son recopilados directamente a partir de las planillas digitales. Si existen discrepancias en el recuento de goles, es decir, si se observan más o menos goles de los que se esperaba, es importante notar que estos inconvenientes están fuera de mi alcance y control.', sticky: true});
@@ -140,7 +151,7 @@ export class FairPlayComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    this.scrappingService.getTableFairPlayByCategoria(this.selectedCategoria, this.selectedDivision, this.selectedGenero).subscribe({
+    this.scrappingService.getTableFairPlayByCategoria(this.selectedCategoria, this.selectedDivision, this.selectedGenero, this.torneo).subscribe({
       next: (res: any) => {
         this.equiposFairPlay = res;
         return;
@@ -190,7 +201,7 @@ export class FairPlayComponent implements OnInit, AfterViewInit {
     if(this.filtroJugador == false){
       console.log(event.data);
       this.equipoNombre = event.data.equipo.nombre;
-      this.scrappingService.getTableFairPlayByEquipo(event.data.equipo._id, event.data.props.division,event.data.props.genero, event.data.props.categoria).subscribe({
+      this.scrappingService.getTableFairPlayByEquipo(event.data.equipo._id, event.data.props.division,event.data.props.genero, event.data.props.categoria, this.torneo).subscribe({
         next: (res: any) => {
           this.guardarTabla = this.equiposFairPlay;
           this.equiposFairPlay = res;

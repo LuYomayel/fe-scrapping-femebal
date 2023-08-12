@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { ScrappingService } from '../services/scrapping.service';
+import { ActivatedRoute } from '@angular/router';
+import { Torneo } from '../main/header/header.component';
 
 @Component({
   selector: 'app-perfil-jugador',
@@ -13,9 +15,24 @@ export class PerfilJugadorComponent implements OnInit, OnChanges {
   @Output() jugadorEliminado = new EventEmitter<void>();
   estadisticas: any[] = [];
 
+  torneo: Torneo = {
+    year: 2023,
+    tipo: 'APERTURA',
+  }
   constructor(
-    private scrappingService: ScrappingService
-  ) { }
+
+    protected scrappingService: ScrappingService,
+
+    protected route: ActivatedRoute,
+  ) {
+    const year = this.route.snapshot.paramMap.get('year');
+    const tipo = this.route.snapshot.paramMap.get('tipo');
+    this.torneo.year = parseInt(year || '2023');
+    this.torneo.tipo = tipo || 'APERTURA';
+    console.log(this.torneo);
+  }
+
+
 
   ngOnInit(): void {
     // this.getEstadisticas();
@@ -30,7 +47,7 @@ export class PerfilJugadorComponent implements OnInit, OnChanges {
   }
 
   getEstadisticas(idJugador: string) {
-    this.scrappingService.getEstadisticas(idJugador).subscribe({
+    this.scrappingService.getEstadisticas(idJugador, this.torneo).subscribe({
       next: (res: any) => {
         let arr = Object.entries(res.estadisticasXFecha).map(([key, value]) => {
           let stats = value as {goles: number, amarillas: number, rojas: number, dosmin: number, azules: number};

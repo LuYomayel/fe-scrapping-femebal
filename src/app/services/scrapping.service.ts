@@ -3,10 +3,16 @@ import { HttpClient, HttpResponse, HttpHeaders , HttpRequest, HttpErrorResponse 
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import {map} from 'rxjs/operators';
-
+import { Torneo } from '../main/header/header.component';
 @Injectable()
 export class ScrappingService {
   protected apiUrl = environment.apiUrl;
+
+  torneo: Torneo = {
+    year: 2023,
+    tipo: 'CLAUSURA'
+  }
+
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       console.error('An error occurred:', error.error.message);
@@ -24,13 +30,15 @@ export class ScrappingService {
       'Something bad happened; please try again later.');
   };
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    console.log('scrapping service')
+  }
 
   getTable() {
     const categoria = 'Mayores';
     const division = 'Liga de Honor Oro';
     const genero = 'Masculino';
-    return this.http.get(this.apiUrl + `jugador/categoria/${division}/${categoria}/${genero}`).pipe(
+    return this.http.get(this.apiUrl + `jugador/categoria/${division}/${categoria}/${genero}?tipo=${this.torneo.tipo}&year=${this.torneo.year}`).pipe(
       map((res: any) => {
         return res;
       }),
@@ -50,8 +58,8 @@ export class ScrappingService {
     );
   }
 
-  getTableByCategoria(categoria: string, division: string, genero: string) {
-    return this.http.get(this.apiUrl + `jugador/categoria/${division}/${categoria}/${genero}`).pipe(
+  getTableByCategoria(categoria: string, division: string, genero: string, torneo: Torneo) {
+    return this.http.get(this.apiUrl + `jugador/categoria/${division}/${categoria}/${genero}?tipo=${this.torneo.tipo}&year=${this.torneo.year}`).pipe(
       map((res: any) => {
         return res;
       }),
@@ -59,8 +67,8 @@ export class ScrappingService {
     );
   }
 
-  getTableFairPlayByCategoria(categoria: string, division: string, genero: string) {
-    return this.http.get(this.apiUrl + `jugador/fairplay/${division}/${categoria}/${genero}`).pipe(
+  getTableFairPlayByCategoria(categoria: string, division: string, genero: string, torneo: Torneo) {
+    return this.http.get(this.apiUrl + `jugador/fairplay/${division}/${categoria}/${genero}?tipo=${this.torneo.tipo}&year=${this.torneo.year}`).pipe(
       map((res: any) => {
         return res;
       }),
@@ -68,8 +76,8 @@ export class ScrappingService {
     );
   }
 
-  getTableByEquipo(equipo: string, division: string, genero: string, categoria: string) {
-    return this.http.get(this.apiUrl + `jugador/equipo/${equipo}/${division}/${categoria}/${genero}`).pipe(
+  getTableByEquipo(equipo: string, division: string, genero: string, categoria: string, torneo: Torneo) {
+    return this.http.get(this.apiUrl + `jugador/equipo/${equipo}/${division}/${categoria}/${genero}?tipo=${this.torneo.tipo}&year=${this.torneo.year}`).pipe(
       map((res: any) => {
         return res;
       }),
@@ -77,9 +85,8 @@ export class ScrappingService {
     );
   }
 
-  getTableFairPlayByEquipo(equipo: string, division: string = 'Liga de Honor Oro', genero: string = "Masculino", categoria: string = "Mayores") {
-    console.log(equipo, division, genero, categoria)
-    return this.http.get(this.apiUrl + `jugador/fairPlayXClub/${equipo}/${division}/${categoria}/${genero}`).pipe(
+  getTableFairPlayByEquipo(equipo: string, division: string = 'Liga de Honor Oro', genero: string = "Masculino", categoria: string = "Mayores", torneo: Torneo) {
+    return this.http.get(this.apiUrl + `jugador/fairPlayXClub/${equipo}/${division}/${categoria}/${genero}?tipo=${this.torneo.tipo}&year=${this.torneo.year}`).pipe(
       map((res: any) => {
         return res;
       }),
@@ -87,8 +94,8 @@ export class ScrappingService {
     );
   }
 
-  getTableByJugador(jugador: string) {
-    return this.http.get(this.apiUrl + `jugador/nombre/${jugador}`).pipe(
+  getTableByJugador(jugador: string, torneo: Torneo) {
+    return this.http.get(this.apiUrl + `jugador/nombre/${jugador}?tipo=${this.torneo.tipo}&year=${this.torneo.year}`).pipe(
       map((res: any) => {
         return res;
       }),
@@ -123,8 +130,18 @@ export class ScrappingService {
     );
   }
 
-  getEstadisticas(idJugador: string){
-    return this.http.get(this.apiUrl + `jugador/estadisticasJugador/${idJugador}`).pipe(
+  getEstadisticas(idJugador: string, torneo: Torneo){
+    return this.http.get(this.apiUrl + `jugador/estadisticasJugador/${idJugador}?tipo=${this.torneo.tipo}&year=${this.torneo.year}`).pipe(
+      map((res: any) => {
+        return res;
+      }),
+      catchError(this.handleError)
+    );
+  }
+
+  getTorneos(){
+    console.log(this.apiUrl + `torneo`)
+    return this.http.get(this.apiUrl + `torneo`).pipe(
       map((res: any) => {
         return res;
       }),

@@ -4,6 +4,8 @@ import { ScrappingService } from '../services/scrapping.service';
 import { Message, MessageService } from 'primeng/api';
 import html2canvas from 'html2canvas';
 import * as moment from 'moment';
+import { ActivatedRoute } from '@angular/router';
+import { Torneo } from '../main/header/header.component';
 
 @Component({
   selector: 'app-table',
@@ -65,17 +67,28 @@ export class TableComponent implements OnInit, AfterViewInit {
 
   fechaActualizacion: string = '';
 
+  torneo: Torneo = {
+    year: 2023,
+    tipo: 'APERTURA',
+  }
   constructor(
     protected router: Router,
     protected scrappingService: ScrappingService,
-    protected messageService: MessageService
+    protected messageService: MessageService,
+    protected route: ActivatedRoute,
   ) {
+    const year = this.route.snapshot.paramMap.get('year');
+    const tipo = this.route.snapshot.paramMap.get('tipo');
+    this.torneo.year = parseInt(year || '2023');
+    this.torneo.tipo = tipo || 'APERTURA';
+    console.log(this.torneo);
   }
   ngAfterViewInit(): void {
     this.messageService.add({key: 'tl', severity:'warn', summary:'Aviso', detail:'Todos los datos referentes a los goles son recopilados directamente a partir de las planillas digitales. Si existen discrepancias en el recuento de goles, es decir, si se observan más o menos goles de los que se esperaba, es importante notar que estos inconvenientes están fuera de mi alcance y control.', sticky: true});
   }
 
   ngOnInit(): void {
+
     this.getTable();
     this.getEquipos();
     this.scrappingService.getUltimaActualizacion().subscribe( res => {
@@ -136,7 +149,7 @@ export class TableComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    this.scrappingService.getTableByCategoria(this.selectedCategoria, this.selectedDivision, this.selectedGenero).subscribe({
+    this.scrappingService.getTableByCategoria(this.selectedCategoria, this.selectedDivision, this.selectedGenero, this.torneo).subscribe({
       next: (res: any) => {
         this.goleadores = this.mapearJugadores(res.goleadores);
         return;
@@ -161,7 +174,7 @@ export class TableComponent implements OnInit, AfterViewInit {
       me.loading = false;
       return;
     }
-    this.scrappingService.getTableByEquipo(this.selectedEquipo, this.selectedDivision, this.selectedGenero, this.selectedCategoria).subscribe({
+    this.scrappingService.getTableByEquipo(this.selectedEquipo, this.selectedDivision, this.selectedGenero, this.selectedCategoria, this.torneo).subscribe({
       next: (res: any) => {
         this.goleadores = this.mapearJugadores(res.goleadores);
         return;
@@ -186,7 +199,7 @@ export class TableComponent implements OnInit, AfterViewInit {
       me.loading = false;
       return;
     }
-    this.scrappingService.getTableByJugador(this.buscarJugador).subscribe({
+    this.scrappingService.getTableByJugador(this.buscarJugador, this.torneo).subscribe({
       next: (res: any) => {
         this.goleadores = this.mapearJugadores(res.goleadores);
         return;
