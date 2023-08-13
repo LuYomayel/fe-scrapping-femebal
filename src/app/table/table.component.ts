@@ -100,7 +100,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   getTable() {
     const me = this;
     me.loading = true;
-    this.scrappingService.getTable().subscribe({
+    this.scrappingService.getTable(this.torneo).subscribe({
       next: (res: any) => {
         // this.goleadores = res.goleadores;
         this.goleadores = this.mapearJugadores(res.goleadores);
@@ -142,6 +142,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   filtrarPorCategoria(){
     const me = this;
     me.loading = true;
+    console.log('filtrarPorCategoria')
     if(this.selectedCategoria === 'null' || this.selectedDivision === 'null' || this.selectedGenero === 'null'){
       console.error('error');
       this.showErrorMessages('Debe completar todos los filtros');
@@ -216,6 +217,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
   mapearJugadores(jugadores:any[]){
+    console.log(jugadores);
     return jugadores.map((goleador: any, index:number) => {
       const estadisticasXFecha = goleador.estadisticasXFecha;
       let goles = 0;

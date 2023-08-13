@@ -102,7 +102,7 @@ export class FairPlayComponent implements OnInit, AfterViewInit {
   getTable() {
     const me = this;
     me.loading = true;
-    this.scrappingService.getTableFairPlay().subscribe({
+    this.scrappingService.getTableFairPlay(this.torneo).subscribe({
       next: (res: any) => {
         this.equiposFairPlay = res;
         return;

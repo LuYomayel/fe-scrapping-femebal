@@ -17,12 +17,10 @@ export class PerfilJugadorComponent implements OnInit, OnChanges {
 
   torneo: Torneo = {
     year: 2023,
-    tipo: 'APERTURA',
-  }
+    tipo: 'APERTURA'
+  };
   constructor(
-
     protected scrappingService: ScrappingService,
-
     protected route: ActivatedRoute,
   ) {
     const year = this.route.snapshot.paramMap.get('year');
