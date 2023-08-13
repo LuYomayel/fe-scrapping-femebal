@@ -4,9 +4,9 @@ import { ScrappingService } from '../services/scrapping.service';
 import { Message, MessageService } from 'primeng/api';
 import html2canvas from 'html2canvas';
 import * as moment from 'moment';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Torneo } from '../main/header/header.component';
-
+import { filter } from 'rxjs/operators';
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
@@ -77,24 +77,38 @@ export class TableComponent implements OnInit, AfterViewInit {
     protected messageService: MessageService,
     protected route: ActivatedRoute,
   ) {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      this.updateTorneoFromRoute();
+    });
+
+    this.updateTorneoFromRoute();
+
+  }
+
+  private updateTorneoFromRoute() {
     const year = this.route.snapshot.paramMap.get('year');
     const tipo = this.route.snapshot.paramMap.get('tipo');
     this.torneo.year = parseInt(year || '2023');
     this.torneo.tipo = tipo || 'APERTURA';
-    console.log(this.torneo);
+    this.getTable();
+    this.getEquipos();
   }
+
   ngAfterViewInit(): void {
     this.messageService.add({key: 'tl', severity:'warn', summary:'Aviso', detail:'Todos los datos referentes a los goles son recopilados directamente a partir de las planillas digitales. Si existen discrepancias en el recuento de goles, es decir, si se observan más o menos goles de los que se esperaba, es importante notar que estos inconvenientes están fuera de mi alcance y control.', sticky: true});
   }
 
   ngOnInit(): void {
 
-    this.getTable();
-    this.getEquipos();
+
     this.scrappingService.getUltimaActualizacion().subscribe( res => {
       const date = new Date(res.ultima_actualizacion);
       this.fechaActualizacion = moment(date).format('DD/MM/YYYY - HH:mm:ss');
     });
+
+    console.log(this.torneo)
   }
 
   getTable() {
@@ -217,7 +231,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
   mapearJugadores(jugadores:any[]){
-    console.log(jugadores);
+
     return jugadores.map((goleador: any, index:number) => {
       const estadisticasXFecha = goleador.estadisticasXFecha;
       let goles = 0;
