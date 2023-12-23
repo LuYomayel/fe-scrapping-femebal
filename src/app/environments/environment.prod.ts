@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://api-goleadores.handball-metropolitano.com/'
+  apiUrl: 'https://dev-goleadores.handball-metropolitano.com/'
 };
