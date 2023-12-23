@@ -28,7 +28,10 @@ import { MessageService } from 'primeng/api';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { MenubarModule } from 'primeng/menubar';
 import { TooltipModule } from 'primeng/tooltip';
+import { ChartModule } from 'primeng/chart';
+
 import { PerfilJugadorComponent } from './perfil-jugador/perfil-jugador.component';
+import { StatisticsComponent } from './statistics/statistics.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +42,8 @@ import { PerfilJugadorComponent } from './perfil-jugador/perfil-jugador.componen
     SpinnerOverlayComponent,
     HeaderComponent,
     FairPlayComponent,
-    PerfilJugadorComponent
+    PerfilJugadorComponent,
+    StatisticsComponent
   ],
   imports: [
     BrowserModule,
@@ -57,7 +61,8 @@ import { PerfilJugadorComponent } from './perfil-jugador/perfil-jugador.componen
     ConfirmDialogModule,
     InputSwitchModule,
     MenubarModule,
-    TooltipModule
+    TooltipModule,
+    ChartModule
   ],
   providers: [
     ScrappingService,

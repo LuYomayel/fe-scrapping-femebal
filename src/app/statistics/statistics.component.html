@@ -1,0 +1,165 @@
+<div class="d-flex align-items-center">
+  <p>Ultima actualización: {{fechaActualizacion}}</p>
+</div>
+<div class="container">
+  <!-- Selectores y Botón de Consulta -->
+  <div class="row mb-2">
+    <div class="col-md-3">
+      <p-dropdown [(ngModel)]="selectedEquipo" [options]="equipos" [style]="{'width':'100%'}" [showClear]="true" [filter]="true"></p-dropdown>
+    </div>
+    <div class="col-md-2">
+      <p-dropdown [(ngModel)]="selectedCategoria" [options]="categorias" [style]="{'width':'100%'}" [showClear]="true"></p-dropdown>
+    </div>
+    <div class="col-md-3">
+      <p-dropdown [(ngModel)]="selectedDivision" [options]="selectedCategoria == 'Mayores' ? divisionesMayores : divisionesInferiores" [style]="{'width':'100%'}" [showClear]="true"></p-dropdown>
+    </div>
+    <div class="col-md-2">
+      <p-dropdown [(ngModel)]="selectedGenero" [options]="generos" [style]="{'width':'100%'}" [showClear]="true"></p-dropdown>
+    </div>
+    <div class="col-md-2">
+      <p-dropdown [(ngModel)]="torneo" [options]="torneos" [style]="{'width':'100%'}" [showClear]="true"></p-dropdown>
+    </div>
+
+
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <p-dropdown [(ngModel)]="selectedEstadistica" [options]="estadisticas" [style]="{'width':'100%'}" [showClear]="true"></p-dropdown>
+    </div>
+    <div class="col-md-3">
+      <p-button label="Generar Gráfico" icon="pi pi-chart-line" (onClick)="generarGrafico()"></p-button>
+    </div>
+  </div>
+
+
+  <!-- Área del Gráfico -->
+  <div class="row mt-4" *ngIf="dataGrafico">
+    <div class="col">
+      <p-chart type="bar" [data]="dataGrafico"></p-chart>
+    </div>
+  </div>
+  <div class="row mt-4" *ngIf="dataGraficoBajoPromedio">
+    <div class="col-12 text-center">
+      <h3>{{equipoFiltrado}}: {{goleador}}</h3>
+    </div>
+    <div class="col">
+      <h5 class="text-center">MVP debajo de su promedio de goles</h5>
+      <p-chart type="pie" [data]="dataGraficoBajoPromedio" [options]="optionsMVP"></p-chart>
+    </div>
+    <div class="col">
+      <h5 class="text-center">MVP encima de su promedio de goles</h5>
+      <p-chart type="pie" [data]="dataGraficoSobrePromedio" [options]="optionsMVP"></p-chart>
+    </div>
+  </div>
+
+
+  <!-- Tabla de Datos Existente -->
+  <!-- <div *ngIf="!jugadorSeleccionado" class="mt-4">
+    (contenido de la tabla existente)
+  </p-table>
+  </div> -->
+
+  <!-- Información Adicional -->
+  <div class="row mt-4" *ngIf="arrayPartidos && arrayPartidos.length > 0">
+    <div class="col">
+      <h3>Información Adicional</h3>
+      <!-- FILEPATH: /Users/lucianoyomayel/luciano/proyectos/personales/fe-scrapping-femebal/src/app/statistics/statistics.component.html -->
+      <!-- BEGIN: ed8c6549bwf9 -->
+      <div *ngIf="arrayPartidos && arrayPartidos.length > 0">
+        <p-table [value]="arrayPartidos">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Fecha</th>
+        <th>Local</th>
+        <th>Resultados 1er Tiempo / Total (Local)</th>
+        <th>Resultados 1er Tiempo / Total (Visitante)</th>
+        <th>Visitante</th>
+              <!-- Add more columns as needed -->
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-partido>
+            <tr>
+              <td>{{ partido.partido.fecha}}</td>
+        <td>{{ partido.estadisticas[partido.partido.equipoLocal].nombre }}</td>
+        <td>{{ partido.estadisticas[partido.partido.equipoLocal].goles1erTiempo }} / {{ partido.partido.golesLocal }}</td>
+        <td>{{ partido.estadisticas[partido.partido.equipoVisitante].goles1erTiempo }} / {{ partido.partido.golesVisitante }}</td>
+        <td>{{ partido.estadisticas[partido.partido.equipoVisitante].nombre }}</td>
+
+              <!-- Add more cells as needed -->
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+      <!-- END: ed8c6549bwf9 -->
+    </div>
+  </div>
+  <div class="row mt-4" *ngIf="arrayPartidosMVP && arrayPartidosMVP.length > 0">
+    <div class="col">
+      <h3>Información Adicional</h3>
+      <!-- FILEPATH: /Users/lucianoyomayel/luciano/proyectos/personales/fe-scrapping-femebal/src/app/statistics/statistics.component.html -->
+      <!-- BEGIN: ed8c6549bwf9 -->
+      <div *ngIf="arrayPartidosMVP && arrayPartidosMVP.length > 0">
+        <p-table [value]="arrayPartidosMVP">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Fecha</th>
+              <th>Rival</th>
+              <th>Resultado</th>
+              <th>Goles MVP</th>
+              <th>Goles MVP/Goles Equipo (%)</th>
+              <!-- Add more columns as needed -->
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-partido>
+            <tr>
+              <td>{{ partido.fecha}}</td>
+              <td>{{ partido.equipoRival.nombre }}</td>
+              <td>{{ partido.resultado }}</td>
+              <td>{{ partido.golesMVP}} </td>
+              <td>{{ partido.porcentajeGolesMVP }}</td>
+
+              <!-- Add more cells as needed -->
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+      <!-- END: ed8c6549bwf9 -->
+    </div>
+  </div>
+  <div class="row mt-4" *ngIf="arrayPartidosVisitante && arrayPartidosVisitante.length > 0">
+    <div class="col">
+      <h3>Información Adicional</h3>
+      <!-- FILEPATH: /Users/lucianoyomayel/luciano/proyectos/personales/fe-scrapping-femebal/src/app/statistics/statistics.component.html -->
+      <!-- BEGIN: ed8c6549bwf9 -->
+      <div *ngIf="arrayPartidosVisitante && arrayPartidosVisitante.length > 0">
+        <p-table [value]="arrayPartidosVisitante">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>#</th>
+              <th>Equipo</th>
+              <th>% de victoria visitante</th>
+              <th>% de victoria local</th>
+              <!-- Add more columns as needed -->
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-partido>
+            <tr>
+              <td>{{ partido.posicion}}</td>
+              <td>{{ partido.equipo }}</td>
+              <td>{{ partido.porcVictoriaVisitante }}</td>
+              <td>{{ partido.porcVictoriaLocal}} </td>
+              <!-- Add more cells as needed -->
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+      <!-- END: ed8c6549bwf9 -->
+    </div>
+  </div>
+</div>
+
+<!-- Componentes Adicionales -->
+<div *ngIf="loading" class="spinner-overlay">
+  <app-spinner-overlay [loading]="loading"></app-spinner-overlay>
+</div>
+<p-toast key="tl" position="center" sticky="true" ></p-toast>

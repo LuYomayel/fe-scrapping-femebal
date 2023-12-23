@@ -26,6 +26,11 @@ export class HeaderComponent implements OnInit{
       // icon: 'pi pi-fw pi-home',
 
       items: []
+    },
+    {
+      label: 'Estadisticas',
+      // icon: 'pi pi-fw pi-users',
+      routerLink: '/estadisticas/1'
     }
     // {
     //   label: 'Goleadores',

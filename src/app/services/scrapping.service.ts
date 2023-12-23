@@ -107,6 +107,15 @@ export class ScrappingService {
     );
   }
 
+  getEquipoById(idEquipo: string) {
+    return this.http.get(this.apiUrl + `equipo/byId/${idEquipo}`).pipe(
+      map((res: any) => {
+        return res;
+      }),
+      catchError(this.handleError)
+    );
+  }
+
   visitCount(){
     return this.http.get(this.apiUrl + `visitas`).pipe(
       map((res: any) => {
@@ -137,6 +146,33 @@ export class ScrappingService {
   getTorneos(){
     console.log(this.apiUrl + `torneo`)
     return this.http.get(this.apiUrl + `torneo`).pipe(
+      map((res: any) => {
+        return res;
+      }),
+      catchError(this.handleError)
+    );
+  }
+
+  getEstadisticasByEquipo(idEquipo: string, categoria:string, division: string, genero:string, torneo: Torneo){
+    return this.http.get(this.apiUrl + `partido/estadisticas/primer-tiempo/${idEquipo}/${categoria}/${division}/${genero}?tipo=${torneo.tipo}&year=${torneo.year}`).pipe(
+      map((res: any) => {
+        return res;
+      }),
+      catchError(this.handleError)
+    );
+  }
+
+  getEstadisticasSegunMVP(idEquipo: string, categoria:string, division: string, genero:string, torneo: Torneo){
+    return this.http.get(this.apiUrl + `partido/estadisticas/analizarRendimientoConMVP/${idEquipo}/${categoria}/${division}/${genero}?tipo=${torneo.tipo}&year=${torneo.year}`).pipe(
+      map((res: any) => {
+        return res;
+      }),
+      catchError(this.handleError)
+    );
+  }
+
+  getPorcentajeVisitanteLocal(categoria:string, division: string, genero:string, torneo: Torneo){
+    return this.http.get(this.apiUrl + `partido/estadisticas/visitanteLocal/${categoria}/${division}/${genero}?tipo=${torneo.tipo}&year=${torneo.year}`).pipe(
       map((res: any) => {
         return res;
       }),
