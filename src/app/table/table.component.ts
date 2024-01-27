@@ -83,7 +83,7 @@ export class TableComponent implements OnInit, AfterViewInit {
       this.updateTorneoFromRoute();
     });
 
-    this.updateTorneoFromRoute();
+    // this.updateTorneoFromRoute();
 
   }
 
@@ -113,11 +113,27 @@ export class TableComponent implements OnInit, AfterViewInit {
 
   getTable() {
     const me = this;
+    console.log('Lamando a esto')
     me.loading = true;
     this.scrappingService.getTable(this.torneo).subscribe({
       next: (res: any) => {
         // this.goleadores = res.goleadores;
-        this.goleadores = this.mapearJugadores(res.goleadores);
+        // this.goleadores = this.mapearJugadores(res.goleadores);
+        console.log(res)
+        this.goleadores = res.goleadores.map((goleador: any, index:number) => {
+          return {
+            _id: goleador.jugador._id,
+            goles: goleador.goles,
+            posicion: index + 1,
+            nombre: goleador.jugador.nombre,
+            equipo: goleador.equipo.nombre,
+            categoria: goleador.jugador.categoria,
+            division: goleador.jugador.division,
+            cantPartidos: goleador.partidosJugados,
+            promedioGoles: (goleador.promedioGolesPorPartido).toFixed(2)
+          }
+        })
+        console.log(this.goleadores)
       },
       error: (error) => {
         console.log(error);
@@ -166,7 +182,19 @@ export class TableComponent implements OnInit, AfterViewInit {
 
     this.scrappingService.getTableByCategoria(this.selectedCategoria, this.selectedDivision, this.selectedGenero, this.torneo).subscribe({
       next: (res: any) => {
-        this.goleadores = this.mapearJugadores(res.goleadores);
+        this.goleadores = res.goleadores.map((goleador: any, index:number) => {
+          return {
+            _id: goleador.jugador._id,
+            goles: goleador.goles,
+            posicion: index + 1,
+            nombre: goleador.jugador.nombre,
+            equipo: goleador.equipo.nombre,
+            categoria: goleador.jugador.categoria,
+            division: goleador.jugador.division,
+            cantPartidos: goleador.partidosJugados,
+            promedioGoles: (goleador.promedioGolesPorPartido).toFixed(2)
+          }
+        })
         return;
       }
       ,
@@ -191,8 +219,21 @@ export class TableComponent implements OnInit, AfterViewInit {
     }
     this.scrappingService.getTableByEquipo(this.selectedEquipo, this.selectedDivision, this.selectedGenero, this.selectedCategoria, this.torneo).subscribe({
       next: (res: any) => {
-        this.goleadores = this.mapearJugadores(res.goleadores);
+        this.goleadores = res.goleadores.map((goleador: any, index:number) => {
+          return {
+            _id: goleador.jugador._id,
+            goles: goleador.goles,
+            posicion: index + 1,
+            nombre: goleador.jugador.nombre,
+            equipo: goleador.equipo.nombre,
+            categoria: goleador.jugador.categoria,
+            division: goleador.jugador.division,
+            cantPartidos: goleador.partidosJugados,
+            promedioGoles: (goleador.promedioGolesPorPartido).toFixed(2)
+          }
+        })
         return;
+
       },
       error: (error) => {
         console.log(error);
@@ -216,7 +257,19 @@ export class TableComponent implements OnInit, AfterViewInit {
     }
     this.scrappingService.getTableByJugador(this.buscarJugador, this.torneo).subscribe({
       next: (res: any) => {
-        this.goleadores = this.mapearJugadores(res.goleadores);
+        this.goleadores = res.goleadores.map((goleador: any, index:number) => {
+          return {
+            _id: goleador.jugador._id,
+            goles: goleador.goles,
+            posicion: index + 1,
+            nombre: goleador.jugador.nombre,
+            equipo: goleador.equipo.nombre,
+            categoria: goleador.jugador.categoria,
+            division: goleador.jugador.division,
+            cantPartidos: goleador.partidosJugados,
+            promedioGoles: (goleador.promedioGolesPorPartido).toFixed(2)
+          }
+        })
         return;
       },
       error: (error) => {
@@ -228,6 +281,10 @@ export class TableComponent implements OnInit, AfterViewInit {
         me.loading = false;
       }
     });
+  }
+
+  mapearJugadores2(jugadores:any[]){
+
   }
 
   mapearJugadores(jugadores:any[]){

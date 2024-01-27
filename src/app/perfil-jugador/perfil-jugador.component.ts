@@ -15,6 +15,7 @@ export class PerfilJugadorComponent implements OnInit, OnChanges {
   @Output() jugadorEliminado = new EventEmitter<void>();
   estadisticas: any[] = [];
 
+  loading:boolean = false;
   torneo: Torneo = {
     year: 2023,
     tipo: 'APERTURA'
@@ -27,7 +28,7 @@ export class PerfilJugadorComponent implements OnInit, OnChanges {
     const tipo = this.route.snapshot.paramMap.get('tipo');
     this.torneo.year = parseInt(year || '2023');
     this.torneo.tipo = tipo || 'APERTURA';
-    console.log(this.torneo);
+
   }
 
 
@@ -40,33 +41,27 @@ export class PerfilJugadorComponent implements OnInit, OnChanges {
     if (changes['jugador']) {
       // Aquí, puedes reaccionar a los cambios en el jugador.
       // Por ejemplo, podrías llamar a getEstadisticas() nuevamente:
+      console.log(changes['jugador'].currentValue);
       this.getEstadisticas(changes['jugador'].currentValue._id);
     }
   }
 
   getEstadisticas(idJugador: string) {
+    this.loading = true;
     this.scrappingService.getEstadisticas(idJugador, this.torneo).subscribe({
       next: (res: any) => {
-        let arr = Object.entries(res.estadisticasXFecha).map(([key, value]) => {
-          let stats = value as {goles: number, amarillas: number, rojas: number, dosmin: number, azules: number};
-          return {
-            fecha: key,
-            goles: stats.goles,
-            amarillas: stats.amarillas,
-            rojas: stats.rojas,
-            dosmin: stats.dosmin,
-            azules: stats.azules,
-          };
-        });
-
+        this.jugador = res.jugador;
+        this.estadisticas = res.estadisticasPorFecha;
 
         // let arr = Object.values(res.estadisticasXFecha);
-        this.estadisticas = arr
+        // this.estadisticas = arr
       },
       error: (error) => {
         console.log(error);
+        this.loading = false
       },
       complete: () => {
+        this.loading = false
         console.log('complete');
       }
     });

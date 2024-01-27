@@ -241,6 +241,7 @@ export class StatisticsComponent implements OnInit {
     });
   }
 
+  // TODO: agregar como parametro el primer y segundo tiempo. Tipo que pasa cuando juega un mail primer tiempo por ejemplo.
   async generarGraficoSegunMVP(textColor: string, textColorSecondary: string, surfaceBorder: string){
     this.loading = true;
     this.dataGraficoBajoPromedio = null;

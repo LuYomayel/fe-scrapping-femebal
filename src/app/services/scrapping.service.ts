@@ -29,10 +29,11 @@ export class ScrappingService {
     console.log('scrapping service')
   }
 
+  // Backend fixed
   getTable(torneo: Torneo) {
     const categoria = 'Mayores';
     const division = 'Liga de Honor Oro';
-    const genero = 'Masculino';
+    const genero = 'Femenino';
     return this.http.get(this.apiUrl + `jugador/categoria/${division}/${categoria}/${genero}?tipo=${torneo.tipo}&year=${torneo.year}`).pipe(
       map((res: any) => {
         return res;
@@ -41,10 +42,11 @@ export class ScrappingService {
     );
   }
 
+
   getTableFairPlay(torneo: Torneo) {
     const categoria = 'Mayores';
     const division = 'Liga de Honor Oro';
-    const genero = 'Masculino';
+    const genero = 'Femenino';
     return this.http.get(this.apiUrl + `jugador/fairplay/${division}/${categoria}/${genero}?tipo=${torneo.tipo}&year=${torneo.year}`).pipe(
       map((res: any) => {
         return res;
@@ -53,6 +55,7 @@ export class ScrappingService {
     );
   }
 
+  // Backend fixed
   getTableByCategoria(categoria: string, division: string, genero: string, torneo: Torneo) {
     return this.http.get(this.apiUrl + `jugador/categoria/${division}/${categoria}/${genero}?tipo=${torneo.tipo}&year=${torneo.year}`).pipe(
       map((res: any) => {
@@ -61,6 +64,7 @@ export class ScrappingService {
       catchError(this.handleError)
     );
   }
+
 
   getTableFairPlayByCategoria(categoria: string, division: string, genero: string, torneo: Torneo) {
     return this.http.get(this.apiUrl + `jugador/fairplay/${division}/${categoria}/${genero}?tipo=${torneo.tipo}&year=${torneo.year}`).pipe(
@@ -71,6 +75,7 @@ export class ScrappingService {
     );
   }
 
+  // Backend fixed
   getTableByEquipo(equipo: string, division: string, genero: string, categoria: string, torneo: Torneo) {
     return this.http.get(this.apiUrl + `jugador/equipo/${equipo}/${division}/${categoria}/${genero}?tipo=${torneo.tipo}&year=${torneo.year}`).pipe(
       map((res: any) => {
@@ -89,6 +94,7 @@ export class ScrappingService {
     );
   }
 
+  // Backend fixed
   getTableByJugador(jugador: string, torneo: Torneo) {
     return this.http.get(this.apiUrl + `jugador/nombre/${jugador}?tipo=${torneo.tipo}&year=${torneo.year}`).pipe(
       map((res: any) => {
