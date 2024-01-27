@@ -22,6 +22,7 @@ export class StatisticsComponent implements OnInit {
   optionsMVP: any;
 
 
+
   loading: boolean = false;
   torneos: Torneo[] = [];
   torneo: Torneo = {
@@ -64,7 +65,7 @@ export class StatisticsComponent implements OnInit {
   estadisticas: any[] = [
     { label: 'Elegir Estadística...', value: 'null' },
     { label: 'Segun primer tiempo', value: 'primerTiempo' },
-    { label: 'Segun MVP', value: 'segunMVP' },
+    { label: 'Segun Goleador', value: 'segunGoleador' },
     { label: '% vic. Visitante/Local', value: 'porcentajeVisitanteLocal' },
   ];
 
@@ -72,7 +73,9 @@ export class StatisticsComponent implements OnInit {
   selectedCategoria: any = this.categorias[0].value;
   selectedGenero: any = this.generos[0].value;
   selectedEquipo: any;
-  selectedEstadistica: any;
+  selectedEstadistica: any = this.estadisticas[0].value;
+
+  mostrarEquipos: boolean = true;
 
   equipoFiltrado: any;
   goleador: any;
@@ -81,6 +84,8 @@ export class StatisticsComponent implements OnInit {
   arrayPartidosVisitante: any[] = [];
 
   arrayPartidos: any[] = [];
+
+  messages: Message[] = [];
   constructor(
     protected router: Router,
     protected scrappingService: ScrappingService,
@@ -94,6 +99,17 @@ export class StatisticsComponent implements OnInit {
     });
 
     this.updateTorneoFromRoute();
+  }
+
+  onFilterChange(event: any) {
+    console.log(event);
+    this.mostrarEquipos = event === 'porcentajeVisitanteLocal' ? false : true;
+
+  }
+
+  showErrorMessages(mensaje: string) {
+    this.messages = [];
+    this.messages.push({ severity: 'error', summary: 'Error', detail: mensaje, life: 3000 });
   }
 
   ngOnInit(): void {
@@ -124,7 +140,9 @@ export class StatisticsComponent implements OnInit {
             value: equipo._id
             };
           });
+
       },
+
       error: (error) => {
         console.log(error);
           this.loading = false;
@@ -160,13 +178,29 @@ export class StatisticsComponent implements OnInit {
   }
   generarGrafico(){
     this.cleanEverything();
+    if( (this.selectedEstadistica === 'porcentajeVisitanteLocal' &&
+        (this.selectedCategoria === 'null' ||
+        this.selectedDivision === 'null' ||
+        this.selectedGenero === 'null'))
+        ||
+        (this.selectedEstadistica !== 'porcentajeVisitanteLocal' &&
+        (this.selectedEquipo === '65a27b1519a5e5c6e8d56802' ||
+        this.selectedEstadistica === 'null' ||
+        this.selectedCategoria === 'null' ||
+        this.selectedDivision === 'null' ||
+        this.selectedGenero === 'null'))
+    ){
+      this.showErrorMessages('Debe completar todos los filtros');
+      return;
+    }
+    console.log(this.selectedEquipo);
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');
     const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
     const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
     if(this.selectedEstadistica === 'primerTiempo'){
       this.generarGraficoSegun1erTiempo(textColor, textColorSecondary, surfaceBorder);
-    } else if(this.selectedEstadistica === 'segunMVP'){
+    } else if(this.selectedEstadistica === 'segunGoleador'){
       this.generarGraficoSegunMVP(textColor, textColorSecondary, surfaceBorder);
     } else if(this.selectedEstadistica === 'porcentajeVisitanteLocal'){
       this.generarTablaPorcentajeVisitanteLocal();

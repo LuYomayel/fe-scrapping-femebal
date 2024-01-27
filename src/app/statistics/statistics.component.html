@@ -3,33 +3,44 @@
 </div>
 <div class="container">
   <!-- Selectores y Botón de Consulta -->
+
   <div class="row mb-2">
-    <div class="col-md-3">
-      <p-dropdown [(ngModel)]="selectedEquipo" [options]="equipos" [style]="{'width':'100%'}" [showClear]="true" [filter]="true"></p-dropdown>
+    <div class="col-md-1 d-flex align-items-center">
+      <label for="fecha">Filtros: </label>
     </div>
-    <div class="col-md-2">
+    <div [ngClass]="mostrarEquipos ? 'col-md-3' : ''" *ngIf="mostrarEquipos">
+      <p-dropdown [(ngModel)]="selectedEquipo" [options]="equipos" [style]="{'width':'100%'}" [showClear]="true" [filter]="true" ></p-dropdown>
+    </div>
+    <div [ngClass]="mostrarEquipos ? 'col-md-2' : 'col-md-3'">
       <p-dropdown [(ngModel)]="selectedCategoria" [options]="categorias" [style]="{'width':'100%'}" [showClear]="true"></p-dropdown>
     </div>
-    <div class="col-md-3">
+    <div [ngClass]="mostrarEquipos ? 'col-md-2' : 'col-md-3'">
       <p-dropdown [(ngModel)]="selectedDivision" [options]="selectedCategoria == 'Mayores' ? divisionesMayores : divisionesInferiores" [style]="{'width':'100%'}" [showClear]="true"></p-dropdown>
     </div>
-    <div class="col-md-2">
+    <div [ngClass]="mostrarEquipos ? 'col-md-2' : 'col-md-3'">
       <p-dropdown [(ngModel)]="selectedGenero" [options]="generos" [style]="{'width':'100%'}" [showClear]="true"></p-dropdown>
     </div>
-    <div class="col-md-2">
+    <div [ngClass]="mostrarEquipos ? 'col-md-2' : 'col-md-2'">
       <p-dropdown [(ngModel)]="torneo" [options]="torneos" [style]="{'width':'100%'}" [showClear]="true"></p-dropdown>
     </div>
 
 
   </div>
   <div class="row">
+    <div class="col-md-2 d-flex align-items-center">
+      <label for="fecha">Elegir Estadistica: </label>
+    </div>
     <div class="col-md-3">
-      <p-dropdown [(ngModel)]="selectedEstadistica" [options]="estadisticas" [style]="{'width':'100%'}" [showClear]="true"></p-dropdown>
+      <p-dropdown [(ngModel)]="selectedEstadistica" [options]="estadisticas" [style]="{'width':'100%'}" [showClear]="true" (ngModelChange)="onFilterChange($event)"></p-dropdown>
     </div>
     <div class="col-md-3">
       <p-button label="Generar Gráfico" icon="pi pi-chart-line" (onClick)="generarGrafico()"></p-button>
     </div>
   </div>
+  <div class="row">
+    <p-messages [(value)]="messages" [enableService]="false" [closable]="false"></p-messages>
+  </div>
+
 
 
   <!-- Área del Gráfico -->
@@ -43,11 +54,11 @@
       <h3>{{equipoFiltrado}}: {{goleador}}</h3>
     </div>
     <div class="col">
-      <h5 class="text-center">MVP debajo de su promedio de goles</h5>
+      <h5 class="text-center">Goleador debajo de su promedio de goles</h5>
       <p-chart type="pie" [data]="dataGraficoBajoPromedio" [options]="optionsMVP"></p-chart>
     </div>
     <div class="col">
-      <h5 class="text-center">MVP encima de su promedio de goles</h5>
+      <h5 class="text-center">Goleador encima de su promedio de goles</h5>
       <p-chart type="pie" [data]="dataGraficoSobrePromedio" [options]="optionsMVP"></p-chart>
     </div>
   </div>
@@ -105,8 +116,8 @@
               <th>Fecha</th>
               <th>Rival</th>
               <th>Resultado</th>
-              <th>Goles MVP</th>
-              <th>Goles MVP/Goles Equipo (%)</th>
+              <th>Goles del Goleador</th>
+              <th>Contribución del Goleador (%)</th>
               <!-- Add more columns as needed -->
             </tr>
           </ng-template>
