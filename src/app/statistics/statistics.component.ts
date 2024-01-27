@@ -159,7 +159,7 @@ export class StatisticsComponent implements OnInit {
     });
   }
   generarGrafico(){
-
+    this.cleanEverything();
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');
     const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
@@ -179,6 +179,7 @@ export class StatisticsComponent implements OnInit {
 
   generarGraficoSegun1erTiempo(textColor: string, textColorSecondary: string, surfaceBorder: string){
     this.loading = true;
+    this.cleanEverything();
     this.scrappingService.getEstadisticasByEquipo(this.selectedEquipo, this.selectedCategoria, this.selectedDivision, this.selectedGenero, this.torneo).subscribe({
       next: (res: any) => {
         console.log(res);
@@ -249,6 +250,8 @@ export class StatisticsComponent implements OnInit {
     this.equipoFiltrado = null;
     this.goleador = null;
     this.optionsMVP = null;
+    this.arrayPartidosMVP = [];
+    this.cleanEverything();
     this.equipoFiltrado = await this.getEquipoById(this.selectedEquipo)
     await this.scrappingService.getEstadisticasSegunMVP(this.selectedEquipo, this.selectedCategoria, this.selectedDivision, this.selectedGenero, this.torneo).subscribe({
         next: (res: any) => {
@@ -388,8 +391,10 @@ transformarDatosParaGraficoPie(datosMVP: any) {
 
   generarTablaPorcentajeVisitanteLocal(){
     this.loading = true;
+    this.cleanEverything();
     this.scrappingService.getPorcentajeVisitanteLocal(this.selectedCategoria, this.selectedDivision, this.selectedGenero, this.torneo).subscribe({
       next: (res: any) => {
+
         console.log(res);
         this.arrayPartidosVisitante = res
 
@@ -440,5 +445,17 @@ transformarDatosParaGraficoPie(datosMVP: any) {
         console.log('complete');
       }
     });
+  }
+
+  cleanEverything(){
+    this.dataGrafico = null;
+    this.dataGraficoBajoPromedio = null;
+    this.dataGraficoSobrePromedio = null;
+    this.optionsMVP = null;
+    this.equipoFiltrado = null;
+    this.goleador = null;
+    this.arrayPartidosMVP = [];
+    this.arrayPartidosVisitante = [];
+    this.arrayPartidos = [];
   }
 }
