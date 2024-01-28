@@ -506,12 +506,12 @@ transformarDatosParaGraficoPie(datosMVP: any) {
     const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
     // Aquí puedes actualizar tus gráficos con nuevas dimensiones si es necesario
     // Puede ser tan simple como reasignar tus opciones de gráfico para forzar la actualización
-    if(this.selectedEstadistica === 'primerTiempo' && this.dataGrafico){
-      console.log('primer tiempo');
+    if(this.dataGrafico){
+
       // this.transformarDatosParaGraficoPie(this.dataGrafico);
       this.dataGrafico = {  ...this.dataGrafico };
-    } else if(this.selectedEstadistica === 'segunGoleador' && this.dataGraficoBajoPromedio && this.dataGraficoSobrePromedio){
-      console.log('segun goleador');
+    } else if(this.dataGraficoBajoPromedio && this.dataGraficoSobrePromedio){
+
       this.dataGraficoBajoPromedio = {  ...this.dataGraficoBajoPromedio };
       this.dataGraficoSobrePromedio = {  ...this.dataGraficoSobrePromedio };
       // this.transformarDatosParaGraficoPie(this.dataGraficoBajoPromedio);
