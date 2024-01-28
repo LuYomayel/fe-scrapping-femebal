@@ -277,7 +277,7 @@ export class TableComponent implements OnInit, AfterViewInit {
         me.loading = false;
       },
       complete: () => {
-        console.log('complete');
+
         me.loading = false;
       }
     });

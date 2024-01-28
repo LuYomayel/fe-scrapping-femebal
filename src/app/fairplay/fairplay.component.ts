@@ -94,8 +94,6 @@ export class FairPlayComponent implements OnInit, AfterViewInit {
     const tipo = this.route.snapshot.paramMap.get('tipo');
     this.torneo.year = parseInt(year || '2023');
     this.torneo.tipo = tipo || 'APERTURA';
-    this.getTable();
-    this.getEquipos();
   }
 
   ngAfterViewInit(): void {
@@ -163,6 +161,7 @@ export class FairPlayComponent implements OnInit, AfterViewInit {
       return;
     }
 
+    console.log(this.torneo)
     this.scrappingService.getTableFairPlayByCategoria(this.selectedCategoria, this.selectedDivision, this.selectedGenero, this.torneo).subscribe({
       next: (res: any) => {
         this.equiposFairPlay = res;
@@ -210,14 +209,26 @@ export class FairPlayComponent implements OnInit, AfterViewInit {
   }
   equipoNombre: string = '';
   onRowSelect(event: any) {
+    this.loading = true;
     if(this.filtroJugador == false){
       console.log(event.data);
       this.equipoNombre = event.data.equipo.nombre;
-      this.scrappingService.getTableFairPlayByEquipo(event.data.equipo._id, event.data.props.division,event.data.props.genero, event.data.props.categoria, this.torneo).subscribe({
+      console.log(event.data.equipo._id);
+      console.log(event.data.equipo.division);
+      console.log(event.data.equipo.genero);
+      console.log(event.data.equipo.categoria);
+      this.scrappingService.getTableFairPlayByEquipo(event.data.equipo._id, event.data.equipo.division,event.data.equipo.genero, event.data.equipo.categoria, this.torneo).subscribe({
         next: (res: any) => {
           this.guardarTabla = this.equiposFairPlay;
           this.equiposFairPlay = res;
           this.filtroJugador = true;
+        },
+        error: (error) => {
+          console.log(error);
+          this.loading = false;
+        },
+        complete: () => {
+          this.loading = false;
         }
       });
     }else{
@@ -233,6 +244,7 @@ export class FairPlayComponent implements OnInit, AfterViewInit {
   }
   goBack(){
     this.filtroJugador = false;
+    console.log(this.guardarTabla);
     this.equiposFairPlay = this.guardarTabla;
 
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { Message, MessageService } from 'primeng/api';
 import { ScrappingService } from '../services/scrapping.service';
@@ -20,8 +20,6 @@ export class StatisticsComponent implements OnInit {
   dataGraficoBajoPromedio: any;
   dataGraficoSobrePromedio: any;
   optionsMVP: any;
-
-
 
   loading: boolean = false;
   torneos: Torneo[] = [];
@@ -230,6 +228,7 @@ export class StatisticsComponent implements OnInit {
         this.options = {
           maintainAspectRatio: false,
           aspectRatio: 0.8,
+          responsive: true,
           plugins: {
               tooltips: {
                   mode: 'index',
@@ -321,6 +320,7 @@ export class StatisticsComponent implements OnInit {
             this.options = {
                 maintainAspectRatio: false,
                 aspectRatio: 0.8,
+                responsive: true,
                 plugins: {
                     tooltips: {
                         mode: 'index',
@@ -435,6 +435,7 @@ transformarDatosParaGraficoPie(datosMVP: any) {
         this.options = {
           maintainAspectRatio: false,
           aspectRatio: 0.8,
+          responsive: true,
           plugins: {
               tooltips: {
                   mode: 'index',
@@ -492,4 +493,30 @@ transformarDatosParaGraficoPie(datosMVP: any) {
     this.arrayPartidosVisitante = [];
     this.arrayPartidos = [];
   }
+
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    console.log('resize');
+    this.reRenderizarGrafico();
+  }
+  reRenderizarGrafico() {
+    const documentStyle = getComputedStyle(document.documentElement);
+    const textColor = documentStyle.getPropertyValue('--text-color');
+    const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
+    const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+    // Aquí puedes actualizar tus gráficos con nuevas dimensiones si es necesario
+    // Puede ser tan simple como reasignar tus opciones de gráfico para forzar la actualización
+    if(this.selectedEstadistica === 'primerTiempo' && this.dataGrafico){
+      console.log('primer tiempo');
+      // this.transformarDatosParaGraficoPie(this.dataGrafico);
+      this.dataGrafico = {  ...this.dataGrafico };
+    } else if(this.selectedEstadistica === 'segunGoleador' && this.dataGraficoBajoPromedio && this.dataGraficoSobrePromedio){
+      console.log('segun goleador');
+      this.dataGraficoBajoPromedio = {  ...this.dataGraficoBajoPromedio };
+      this.dataGraficoSobrePromedio = {  ...this.dataGraficoSobrePromedio };
+      // this.transformarDatosParaGraficoPie(this.dataGraficoBajoPromedio);
+      // this.transformarDatosParaGraficoPie(this.dataGraficoSobrePromedio);
+    }
+  }
+
 }

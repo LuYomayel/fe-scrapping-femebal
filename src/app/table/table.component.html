@@ -12,6 +12,8 @@
 
     id="table"
     [value]="goleadores"
+    [resizableColumns]="true"
+    [responsive]="true"
     [tableStyle]="{'min-width': '50rem'}"
     class="table-responsive"
     [ngClass]="{'watermark' : goleadores.length > 5, 'watermark-small' : goleadores.length > 0 && goleadores.length < 5}"

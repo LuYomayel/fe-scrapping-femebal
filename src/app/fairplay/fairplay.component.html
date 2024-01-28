@@ -11,6 +11,8 @@
     [value]="equiposFairPlay"
     [tableStyle]="{'min-width': '50rem'}"
     class="table-responsive"
+    [resizableColumns]="true"
+    [responsive]="true"
     [ngClass]="{'watermark' : equiposFairPlay.length > 5, 'watermark-small' : equiposFairPlay.length > 0 && equiposFairPlay.length < 5}"
     styleClass="p-datatable-gridlines p-datatable-sm"
     [paginator]="true" [rows]="16" [rowsPerPageOptions]="[16,32]"
@@ -66,7 +68,7 @@
         <tr [pSelectableRow]="equipo">
             <td class="text-center">{{rowIndex+1}}</td>
             <td *ngIf="!filtroJugador">{{equipo.equipo.nombre}}</td>
-            <td *ngIf="filtroJugador">{{equipo.nombre}}</td>
+            <td *ngIf="filtroJugador">{{equipo.jugador.nombre}}</td>
             <td class="text-center">{{equipo.amarillas}}</td>
             <td class="text-center">{{equipo.dosmin}}</td>
             <td class="text-center">{{equipo.rojas}}</td>
