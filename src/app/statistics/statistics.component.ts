@@ -62,8 +62,8 @@ export class StatisticsComponent implements OnInit {
   equipos: any[] = [];
   estadisticas: any[] = [
     { label: 'Elegir Estadística...', value: 'null' },
-    { label: 'Segun primer tiempo', value: 'primerTiempo' },
-    { label: 'Segun Goleador', value: 'segunGoleador' },
+    { label: 'Impacto del medio tiempo', value: 'primerTiempo' },
+    { label: 'Impacto del goleador', value: 'segunGoleador' },
     { label: '% vic. Visitante/Local', value: 'porcentajeVisitanteLocal' },
   ];
 
@@ -84,6 +84,7 @@ export class StatisticsComponent implements OnInit {
   arrayPartidos: any[] = [];
 
   messages: Message[] = [];
+  mensajeExplicativo: string = 'Selecciona una estadística para obtener una breve explicacion.'
   constructor(
     protected router: Router,
     protected scrappingService: ScrappingService,
@@ -102,7 +103,18 @@ export class StatisticsComponent implements OnInit {
   onFilterChange(event: any) {
     console.log(event);
     this.mostrarEquipos = event === 'porcentajeVisitanteLocal' ? false : true;
-
+    if(event == 'primerTiempo'){
+      this.mensajeExplicativo = 'Explora cómo el resultado al medio tiempo afecta el desenlace del partido.';
+    }
+    else if(event == 'segunGoleador'){
+      this.mensajeExplicativo = 'Analiza cómo la actuación de los máximos anotadores influye en el resultado final del partido.';
+    }
+    else if(event == 'porcentajeVisitanteLocal'){
+      this.mensajeExplicativo = 'La tabla muestra el porcentaje de partidos ganados como local y visitante.';
+    }
+    else{
+      this.mensajeExplicativo = 'Selecciona una estadística para obtener una breve explicacion.';
+    }
   }
 
   showErrorMessages(mensaje: string) {
@@ -111,14 +123,12 @@ export class StatisticsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.getEquipos();
     this.scrappingService.getUltimaActualizacion().subscribe( res => {
       const date = new Date(res.ultima_actualizacion);
       this.fechaActualizacion = moment(date).format('DD/MM/YYYY - HH:mm:ss');
     });
     this.getTorneos();
-
   }
 
   private updateTorneoFromRoute() {

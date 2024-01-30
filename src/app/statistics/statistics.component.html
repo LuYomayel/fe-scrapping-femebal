@@ -27,7 +27,7 @@
 
   </div>
   <div class="row">
-    <div class="col-md-2 d-flex align-items-center">
+    <div class="col-md-1 d-flex align-items-center">
       <label for="fecha">Elegir Estadistica: </label>
     </div>
     <div class="col-md-3">
@@ -35,6 +35,11 @@
     </div>
     <div class="col-md-3">
       <p-button label="Generar Gráfico" icon="pi pi-chart-line" (onClick)="generarGrafico()"></p-button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <p class="p-m-0 small p-text-secondary p-text-sm">{{ mensajeExplicativo }}</p>
     </div>
   </div>
   <div class="row">
