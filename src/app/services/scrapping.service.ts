@@ -160,7 +160,7 @@ export class ScrappingService {
   }
 
   getEstadisticasByEquipo(idEquipo: string, categoria:string, division: string, genero:string, torneo: Torneo){
-    return this.http.get(this.apiUrl + `partido/estadisticas/primer-tiempo/${idEquipo}/${categoria}/${division}/${genero}?tipo=${torneo.tipo}&year=${torneo.year}`).pipe(
+    return this.http.get(this.apiUrl + `partido/estadisticas/primer-tiempo/${idEquipo}/${categoria}/${division}/${genero}/${torneo.tipo}/${torneo.year}`).pipe(
       map((res: any) => {
         return res;
       }),
@@ -169,7 +169,7 @@ export class ScrappingService {
   }
 
   getEstadisticasSegunMVP(idEquipo: string, categoria:string, division: string, genero:string, torneo: Torneo){
-    return this.http.get(this.apiUrl + `partido/estadisticas/analizarRendimientoConMVP/${idEquipo}/${categoria}/${division}/${genero}?tipo=${torneo.tipo}&year=${torneo.year}`).pipe(
+    return this.http.get(this.apiUrl + `partido/estadisticas/analizarRendimientoConMVP/${idEquipo}/${categoria}/${division}/${genero}/${torneo.tipo}/${torneo.year}`).pipe(
       map((res: any) => {
         return res;
       }),
@@ -178,7 +178,7 @@ export class ScrappingService {
   }
 
   getPorcentajeVisitanteLocal(categoria:string, division: string, genero:string, torneo: Torneo){
-    return this.http.get(this.apiUrl + `partido/estadisticas/visitanteLocal/${categoria}/${division}/${genero}?tipo=${torneo.tipo}&year=${torneo.year}`).pipe(
+    return this.http.get(this.apiUrl + `partido/estadisticas/visitanteLocal/${categoria}/${division}/${genero}/${torneo.tipo}/${torneo.year}`).pipe(
       map((res: any) => {
         return res;
       }),
