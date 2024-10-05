@@ -160,6 +160,7 @@ export class ScrappingService {
   }
 
   getEstadisticasByEquipo(idEquipo: string, categoria:string, division: string, genero:string, torneo: Torneo){
+    console.log(this.apiUrl + `partido/estadisticas/${idEquipo}/${categoria}/${division}/${genero}/${torneo.tipo}/${torneo.year}`)
     return this.http.get(this.apiUrl + `partido/estadisticas/primer-tiempo/${idEquipo}/${categoria}/${division}/${genero}/${torneo.tipo}/${torneo.year}`).pipe(
       map((res: any) => {
         return res;
