@@ -122,15 +122,15 @@ export class TableComponent implements OnInit, AfterViewInit {
         console.log(res)
         this.goleadores = res.goleadores.map((goleador: any, index:number) => {
           return {
-            _id: goleador.jugador._id,
+            _id: goleador.jugador_id,
             goles: goleador.goles,
             posicion: index + 1,
-            nombre: goleador.jugador.nombre,
-            equipo: goleador.equipo.nombre,
-            categoria: goleador.jugador.categoria,
-            division: goleador.jugador.division,
+            nombre: goleador.jugador_nombre,
+            equipo: goleador.equipo_nombre,
+            categoria: goleador.jugador_categoria,
+            division: goleador.jugador_division,
             cantPartidos: goleador.partidosJugados,
-            promedioGoles: (goleador.promedioGolesPorPartido).toFixed(2)
+            promedioGoles: (goleador.goles / goleador.partidosJugados).toFixed(2)
           }
         })
         console.log(this.goleadores)
@@ -183,16 +183,17 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.scrappingService.getTableByCategoria(this.selectedCategoria, this.selectedDivision, this.selectedGenero, this.torneo).subscribe({
       next: (res: any) => {
         this.goleadores = res.goleadores.map((goleador: any, index:number) => {
+          console.log(goleador)
           return {
-            _id: goleador.jugador._id,
+            _id: goleador.jugador_id,
             goles: goleador.goles,
             posicion: index + 1,
-            nombre: goleador.jugador.nombre,
-            equipo: goleador.equipo.nombre,
-            categoria: goleador.jugador.categoria,
-            division: goleador.jugador.division,
+            nombre: goleador.jugador_nombre,
+            equipo: goleador.equipo_nombre,
+            categoria: goleador.jugador_categoria,
+            division: goleador.jugado_division,
             cantPartidos: goleador.partidosJugados,
-            promedioGoles: (goleador.promedioGolesPorPartido).toFixed(2)
+            promedioGoles: (goleador.goles / goleador.partidosJugados).toFixed(2)
           }
         })
         return;
@@ -221,15 +222,15 @@ export class TableComponent implements OnInit, AfterViewInit {
       next: (res: any) => {
         this.goleadores = res.goleadores.map((goleador: any, index:number) => {
           return {
-            _id: goleador.jugador._id,
+            _id: goleador.jugador_id,
             goles: goleador.goles,
             posicion: index + 1,
-            nombre: goleador.jugador.nombre,
-            equipo: goleador.equipo.nombre,
-            categoria: goleador.jugador.categoria,
-            division: goleador.jugador.division,
+            nombre: goleador.jugador_nombre,
+            equipo: goleador.equipo_nombre,
+            categoria: goleador.jugador_categoria,
+            division: goleador.jugador_division,
             cantPartidos: goleador.partidosJugados,
-            promedioGoles: (goleador.promedioGolesPorPartido).toFixed(2)
+            promedioGoles: (goleador.goles / goleador.partidosJugados).toFixed(2)
           }
         })
         return;
@@ -259,15 +260,15 @@ export class TableComponent implements OnInit, AfterViewInit {
       next: (res: any) => {
         this.goleadores = res.goleadores.map((goleador: any, index:number) => {
           return {
-            _id: goleador.jugador._id,
+            _id: goleador.jugador_id,
             goles: goleador.goles,
             posicion: index + 1,
-            nombre: goleador.jugador.nombre,
-            equipo: goleador.equipo.nombre,
-            categoria: goleador.jugador.categoria,
-            division: goleador.jugador.division,
+            nombre: goleador.jugador_nombre,
+            equipo: goleador.equipo_nombre,
+            categoria: goleador.jugador_categoria,
+            division: goleador.jugador_division,
             cantPartidos: goleador.partidosJugados,
-            promedioGoles: (goleador.promedioGolesPorPartido).toFixed(2)
+            promedioGoles: (goleador.goles / goleador.partidosJugados).toFixed(2)
           }
         })
         return;
@@ -281,10 +282,6 @@ export class TableComponent implements OnInit, AfterViewInit {
         me.loading = false;
       }
     });
-  }
-
-  mapearJugadores2(jugadores:any[]){
-
   }
 
   mapearJugadores(jugadores:any[]){
