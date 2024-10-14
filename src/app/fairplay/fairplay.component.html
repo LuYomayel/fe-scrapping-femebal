@@ -67,13 +67,13 @@
     <ng-template pTemplate="body" let-equipo let-columns="columns" let-rowIndex="rowIndex">
         <tr [pSelectableRow]="equipo">
             <td class="text-center">{{rowIndex+1}}</td>
-            <td *ngIf="!filtroJugador">{{equipo.equipo.nombre}}</td>
-            <td *ngIf="filtroJugador">{{equipo.jugador.nombre}}</td>
+            <td *ngIf="!filtroJugador">{{equipo.equipoNombre}}</td>
+            <td *ngIf="filtroJugador">{{equipo.jugadorNombre}}</td>
             <td class="text-center">{{equipo.amarillas}}</td>
             <td class="text-center">{{equipo.dosmin}}</td>
             <td class="text-center">{{equipo.rojas}}</td>
             <td class="text-center">{{equipo.azules}}</td>
-            <td class="text-center">{{equipo.fairPlay}}</td>
+            <td class="text-center">{{equipo.puntajeTotal}}</td>
         </tr>
     </ng-template>
   </p-table>

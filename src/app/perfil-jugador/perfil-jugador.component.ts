@@ -51,8 +51,11 @@ export class PerfilJugadorComponent implements OnInit, OnChanges {
     this.scrappingService.getEstadisticas(idJugador, this.torneo).subscribe({
       next: (res: any) => {
         this.jugador = res.jugador;
-        this.estadisticas = res.estadisticasPorFecha;
-
+        const arr = res.estadisticasPorFecha.sort((a: any, b: any) => {
+          return parseInt(a.fecha) - parseInt(b.fecha);
+        }
+        );
+        this.estadisticas = arr;
         // let arr = Object.values(res.estadisticasXFecha);
         // this.estadisticas = arr
       },

@@ -163,6 +163,7 @@ export class ScrappingService {
     console.log(this.apiUrl + `partido/estadisticas/${idEquipo}/${categoria}/${division}/${genero}/${torneo.tipo}/${torneo.year}`)
     return this.http.get(this.apiUrl + `partido/estadisticas/primer-tiempo/${idEquipo}/${categoria}/${division}/${genero}/${torneo.tipo}/${torneo.year}`).pipe(
       map((res: any) => {
+        console.log(res)
         return res;
       }),
       catchError(this.handleError)

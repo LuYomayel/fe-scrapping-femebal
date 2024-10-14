@@ -20,6 +20,7 @@
       <ng-template pTemplate="header" let-columns>
         <tr>
           <th class="text-center">Fecha</th>
+          <th class="text-center">Rival</th>
           <th class="text-center">Goles</th>
           <th class="text-center">Amarillas</th>
           <th class="text-center">2'</th>
@@ -29,7 +30,8 @@
       </ng-template>
       <ng-template pTemplate="body" let-jugador let-columns="columns" let-rowIndex="rowIndex">
         <tr>
-          <td class="text-center">{{jugador._id}}</td>
+          <td class="text-center">{{jugador.fecha}}</td>
+          <td class="text-center">{{jugador.equipoRival}}</td>
           <td class="text-center">{{jugador.goles}}</td>
           <td class="text-center">{{jugador.amarillas}}</td>
           <td class="text-center">{{jugador.dosmin}}</td>

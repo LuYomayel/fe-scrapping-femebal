@@ -145,7 +145,7 @@ export class StatisticsComponent implements OnInit {
         this.equipos = res.map((equipo: any) => {
           return {
             label: equipo.nombre,
-            value: equipo._id
+            value: equipo.id
             };
           });
 
@@ -298,7 +298,7 @@ export class StatisticsComponent implements OnInit {
     this.equipoFiltrado = await this.getEquipoById(this.selectedEquipo)
     await this.scrappingService.getEstadisticasSegunMVP(this.selectedEquipo, this.selectedCategoria, this.selectedDivision, this.selectedGenero, this.torneo).subscribe({
         next: (res: any) => {
-            // console.log(res.arrayPartidos);
+            console.log(res);
 
             // Transformar datos para el gráfico de MVP bajo el promedio
             this.dataGraficoBajoPromedio = this.transformarDatosParaGraficoPie(res.bajoPromedio);

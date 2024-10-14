@@ -113,13 +113,11 @@ export class TableComponent implements OnInit, AfterViewInit {
 
   getTable() {
     const me = this;
-    console.log('Lamando a esto')
     me.loading = true;
     this.scrappingService.getTable(this.torneo).subscribe({
       next: (res: any) => {
         // this.goleadores = res.goleadores;
         // this.goleadores = this.mapearJugadores(res.goleadores);
-        console.log(res)
         this.goleadores = res.goleadores.map((goleador: any, index:number) => {
           return {
             _id: goleador.jugador_id,
@@ -133,7 +131,6 @@ export class TableComponent implements OnInit, AfterViewInit {
             promedioGoles: (goleador.goles / goleador.partidosJugados).toFixed(2)
           }
         })
-        console.log(this.goleadores)
       },
       error: (error) => {
         console.log(error);
@@ -151,7 +148,7 @@ export class TableComponent implements OnInit, AfterViewInit {
         this.equipos = res.map((equipo: any) => {
           return {
             label: equipo.nombre,
-            value: equipo._id
+            value: equipo.id
             };
           });
       },
@@ -221,12 +218,13 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.scrappingService.getTableByEquipo(this.selectedEquipo, this.selectedDivision, this.selectedGenero, this.selectedCategoria, this.torneo).subscribe({
       next: (res: any) => {
         this.goleadores = res.goleadores.map((goleador: any, index:number) => {
+          console.log(goleador)
           return {
             _id: goleador.jugador_id,
             goles: goleador.goles,
             posicion: index + 1,
-            nombre: goleador.jugador_nombre,
-            equipo: goleador.equipo_nombre,
+            nombre: goleador.nombre,
+            equipo: goleador.equipo,
             categoria: goleador.jugador_categoria,
             division: goleador.jugador_division,
             cantPartidos: goleador.partidosJugados,

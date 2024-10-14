@@ -96,10 +96,10 @@
           <ng-template pTemplate="body" let-partido>
             <tr>
               <td>{{ partido.partido.fecha}}</td>
-        <td>{{ partido.estadisticas[partido.partido.equipoLocal].nombre }}</td>
-        <td>{{ partido.estadisticas[partido.partido.equipoLocal].goles1erTiempo }} / {{ partido.partido.golesLocal }}</td>
-        <td>{{ partido.estadisticas[partido.partido.equipoVisitante].goles1erTiempo }} / {{ partido.partido.golesVisitante }}</td>
-        <td>{{ partido.estadisticas[partido.partido.equipoVisitante].nombre }}</td>
+        <td>{{ partido.estadisticas[partido.partido.equipoLocal.id].nombre }}</td>
+        <td>{{ partido.estadisticas[partido.partido.equipoLocal.id].goles1erTiempo }} / {{ partido.partido.golesLocal }}</td>
+        <td>{{ partido.estadisticas[partido.partido.equipoVisitante.id].goles1erTiempo }} / {{ partido.partido.golesVisitante }}</td>
+        <td>{{ partido.estadisticas[partido.partido.equipoVisitante.id].nombre }}</td>
 
               <!-- Add more cells as needed -->
             </tr>

@@ -210,14 +210,15 @@ export class FairPlayComponent implements OnInit, AfterViewInit {
   equipoNombre: string = '';
   onRowSelect(event: any) {
     this.loading = true;
+    console.log(event.data);
     if(this.filtroJugador == false){
       console.log(event.data);
-      this.equipoNombre = event.data.equipo.nombre;
-      console.log(event.data.equipo._id);
-      console.log(event.data.equipo.division);
-      console.log(event.data.equipo.genero);
-      console.log(event.data.equipo.categoria);
-      this.scrappingService.getTableFairPlayByEquipo(event.data.equipo._id, event.data.equipo.division,event.data.equipo.genero, event.data.equipo.categoria, this.torneo).subscribe({
+      this.equipoNombre = event.data.equipoNombre;
+      console.log(event.data.equipoId);
+      console.log(event.data.division);
+      console.log(event.data.genero);
+      console.log(event.data.categoria);
+      this.scrappingService.getTableFairPlayByEquipo(event.data.equipoId, event.data.division,event.data.genero, event.data.categoria, this.torneo).subscribe({
         next: (res: any) => {
           this.guardarTabla = this.equiposFairPlay;
           this.equiposFairPlay = res;
