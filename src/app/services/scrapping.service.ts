@@ -187,4 +187,21 @@ export class ScrappingService {
       catchError(this.handleError)
     );
   }
+
+  // Get historical scorers by category
+  // Obtener goleadores históricos por categoría
+  getGoleadoresHistoricosPorCategoria(categoria: string, division: string, genero: string) {
+    return this.http.get<any[]>(this.apiUrl + `jugador/goleadores-historicos/categoria`, {
+      params: { categoria, division, genero }
+    });
+  }
+
+  // Obtener goleadores históricos por equipo
+  getGoleadoresHistoricosPorEquipo(equipoId: number, categoria: string, division: string, genero: string) {
+    console.log('params', { categoria, division, genero });
+    return this.http.get<any[]>(this.apiUrl + `jugador/goleadores-historicos/equipo/${equipoId}`, {
+      params: { categoria, division, genero }
+    });
+  }
+
 }

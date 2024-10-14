@@ -33,6 +33,12 @@ export class HeaderComponent implements OnInit{
       routerLink: '/estadisticas'
     },
     {
+      label: 'Historial de Goleadores',
+      // icon: 'pi pi-fw pi-users',
+      routerLink: '/historial-goleadores',
+      badge: 'new'
+    },
+    {
       label: 'Cafecito',
       // icon: 'pi pi-fw pi-home',
       routerLink: '/cafecito'

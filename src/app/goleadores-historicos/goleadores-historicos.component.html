@@ -1,0 +1,94 @@
+<div class="d-flex align-items-center">
+  <p>Última actualización: {{fechaActualizacion}}</p>
+</div>
+<div class="container">
+  <h1 class="text-center">Goleadores Históricos</h1>
+  <div class="d-flex flex-row align-items-center mb-4">
+    <label for="filtroGeneral" class="pe-2">Filtrar por:</label>
+    <p-dropdown [options]="filtroGeneral" [(ngModel)]="selectedFiltro" [style]="{'width':'100%'}" [showClear]="false" (onChange)="onChangeFiltro($event)"></p-dropdown>
+  </div>
+
+  <p-table
+    [value]="goleadores"
+    [resizableColumns]="true"
+    [responsive]="true"
+    [tableStyle]="{'min-width': '50rem'}"
+    class="table-responsive"
+    styleClass="p-datatable-gridlines p-datatable-sm"
+    [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,50]"
+    emptyMessage="No hay datos"
+    [globalFilterFields]="['nombre', 'equipo']"
+    dataKey="posicion"
+    selectionMode="single"
+    >
+    <ng-template pTemplate="caption" >
+      <!-- Filtros para categoría -->
+      <div *ngIf="selectedFiltro == 'categoria'" class="row">
+        <div class="col-12 col-sm-3">
+          <p-dropdown [(ngModel)]="selectedCategoria" (ngModelChange)="updateDivisiones()" [options]="categorias" [style]="{'width':'100%'}" [showClear]="false" placeholder="Categoría"></p-dropdown>
+        </div>
+        <div class="col-12 col-sm-3">
+          <p-dropdown [(ngModel)]="selectedDivision" [options]="divisiones" [style]="{'width':'100%'}" [showClear]="false" placeholder="División"></p-dropdown>
+        </div>
+        <div class="col-12 col-sm-3">
+          <p-dropdown [(ngModel)]="selectedGenero" [options]="generos" [style]="{'width':'100%'}" [showClear]="false" placeholder="Género"></p-dropdown>
+        </div>
+        <div class="col-12 col-sm-3">
+          <p-button label="Buscar" icon="pi pi-search" class="boton-perso" [style]="{'width':'100%'}" (onClick)="filtrarPorCategoria()"></p-button>
+        </div>
+      </div>
+
+      <!-- Filtros para equipo -->
+      <div *ngIf="selectedFiltro == 'equipo'" class="row">
+        <div class="col-12 col-sm-3">
+          <p-dropdown [(ngModel)]="selectedEquipo" [options]="equipos" [style]="{'width':'100%'}" [showClear]="false" [filter]="true" placeholder="Equipo"></p-dropdown>
+        </div>
+        <div class="col-12 col-sm-3">
+          <p-dropdown [(ngModel)]="selectedCategoria" (ngModelChange)="updateDivisiones()" [options]="categorias" [style]="{'width':'100%'}" [showClear]="false" placeholder="Categoría"></p-dropdown>
+        </div>
+        <div class="col-12 col-sm-3">
+          <p-dropdown [(ngModel)]="selectedDivision" [options]="divisiones" [style]="{'width':'100%'}" [showClear]="false" placeholder="División"></p-dropdown>
+        </div>
+        <div class="col-12 col-sm-3">
+          <p-dropdown [(ngModel)]="selectedGenero" [options]="generos" [style]="{'width':'100%'}" [showClear]="false" placeholder="Género"></p-dropdown>
+        </div>
+        <div class="col-12 col-sm-12 col-md-3 mt-2">
+          <p-button label="Buscar" icon="pi pi-search" class="boton-perso" [style]="{'width':'100%'}" (onClick)="filtrarPorEquipo()"></p-button>
+        </div>
+      </div>
+
+      <p-messages [(value)]="messages" [enableService]="false" [closable]="false"></p-messages>
+    </ng-template>
+
+    <ng-template pTemplate="header" let-columns >
+      <tr>
+        <th class="text-center">#</th>
+        <th>Nombre</th>
+        <th>Equipo</th>
+        <th>Categoría</th>
+        <th>División</th>
+        <th class="text-center">Goles</th>
+        <th class="text-center">PJ</th>
+        <th class="text-center">PG</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-jugador let-columns="columns" let-rowIndex="rowIndex">
+      <tr>
+        <td class="text-center">{{jugador.posicion}}</td>
+        <td>{{jugador.nombre}}</td>
+        <td>{{jugador.equipo}}</td>
+        <td>{{jugador.categoria}}</td>
+        <td>{{jugador.division}}</td>
+        <td class="text-center">{{jugador.goles}}</td>
+        <td class="text-center">{{jugador.cantPartidos}}</td>
+        <td class="text-center">{{jugador.promedioGoles}}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<div *ngIf="loading" class="spinner-overlay">
+  <app-spinner-overlay [loading]="loading"></app-spinner-overlay>
+</div>
+
+<p-toast key="tl" position="center" sticky="true" ></p-toast>

@@ -33,6 +33,7 @@ import { ChartModule } from 'primeng/chart';
 import { PerfilJugadorComponent } from './perfil-jugador/perfil-jugador.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { CafecitoComponent } from './cafecito/cafecito.component';
+import { GoleadoresHistoricosComponent } from './goleadores-historicos/goleadores-historicos.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { CafecitoComponent } from './cafecito/cafecito.component';
     FairPlayComponent,
     PerfilJugadorComponent,
     StatisticsComponent,
-    CafecitoComponent
+    CafecitoComponent,
+    GoleadoresHistoricosComponent
   ],
   imports: [
     BrowserModule,
